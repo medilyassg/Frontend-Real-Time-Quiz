@@ -10,14 +10,14 @@ function App() {
 
     console.log('csrf : ',csrf)
 
-    const login = await api.post('/api/login',{
+    const login = await api.post('/api/v1/auth/login',{
       email:'jovani24@example.com',
       password:'password'
     })
 
     console.log('login : ',login)
 
-    const user=await api.get('/api/user')
+    const user=await api.get('/api/v1/user')
     console.log('user : ',user)
   }
   return <>
