@@ -1,12 +1,11 @@
-import '../index.css';
 import { api } from '../../config/axios';
 import { useEffect } from 'react';
 import { useDispatch,useSelector } from "react-redux";
-import {addAuthData} from '../store/authDataReducer'
+import {addAuthData,isLogin} from '../store/authDataReducer'
 
 const LoginPage=()=>{
     const dispatch=useDispatch();
-    let dataUser=useSelector(state=>state.authData);
+    let dataUser=useSelector(state=>state);
     
     useEffect(() => {
         getUser();
@@ -21,8 +20,10 @@ const LoginPage=()=>{
         })
     
         const user=await api.get('/api/v1/user')
-
-         dispatch(addAuthData(user.data.data))
+        if(user.status>=200 && user.status<300){
+            dispatch(addAuthData(user.data.data))
+            dispatch(isLogin())
+        }
       }
       console.log(dataUser)
       

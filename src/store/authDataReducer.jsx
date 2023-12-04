@@ -1,5 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-const InitialState={authDataValue:{}}
+const InitialState={authDataValue:{},Login:false}
 const authData = createSlice ({
     name: "authData",
     initialState:InitialState,
@@ -7,10 +7,13 @@ const authData = createSlice ({
         addAuthData : (state, action) => {
             state.authDataValue=action.payload
         },
+        isLogin:(state,action)=>{
+            state.Login=true
+        }
 
     }
 });
 
-export const {addAuthData} = authData.actions;
+export const {addAuthData,isLogin} = authData.actions;
 
 export default authData.reducer;
