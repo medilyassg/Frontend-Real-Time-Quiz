@@ -1,9 +1,9 @@
 import QRCode from 'react-qr-code';
-import {FaShare, FaWhatsapp, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
+import { FaWhatsapp, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
 import Player from './Player';
 
-const WaitingRoom = () => {
-  const roomId = '444'; // Replace with your actual room ID
+const PlayerWaitingRoom = () => {
+  const roomId = '444';
 
   const players = [
     { id: 1, nickname: 'Player1' },
@@ -45,18 +45,15 @@ const WaitingRoom = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b bg-gradient-to-tr from-blue-400 to-cyan-200">
       <div className="bg-white p-8 border border-blue-900 rounded-md shadow-md w-full max-w-full m-3 relative">
 
-        {/* QR Code in Top Right */}
         <div className="absolute top-0 right-0 mt-4 mr-4">
-        <QRCode value={`http://localhost:3000/code?id=${roomId}`}    size={70}
- />
+          <QRCode value={`http://localhost:3000/code?id=${roomId}`} size={70}
+          />
         </div>
 
-        {/* Room ID and Title */}
         <div className="mb-4">
           <h2 className="text-1xl font-bold text-blue-500">Room ID: {roomId}</h2>
         </div>
 
-        {/* Game Start Message */}
         <div className="p-6 rounded-md text-center">
           <h2 className="text-2xl font-bold mb-4 text-blue-500">Get Ready!</h2>
           <style>{animationStyle}</style>
@@ -65,10 +62,9 @@ const WaitingRoom = () => {
           </p>
         </div>
 
-        {/* Player List */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           {players.map((player) => (
-                        <Player key={player.id} player={player} />
+            <Player key={player.id} player={player} />
 
           ))}
         </div>
@@ -77,7 +73,6 @@ const WaitingRoom = () => {
           Invite more players to join the game. The more, the merrier!
         </p>
 
-        {/* Share Zone */}
         <div className="flex items-center justify-center space-x-4">
           <div className="flex items-center space-x-4">
             <a href={`https://api.whatsapp.com/send?text=${encodeURIComponent(shareMessage)}`} target="_blank" rel="noopener noreferrer" className="text-green-600">
@@ -99,4 +94,4 @@ const WaitingRoom = () => {
   );
 };
 
-export default WaitingRoom;
+export default PlayerWaitingRoom;

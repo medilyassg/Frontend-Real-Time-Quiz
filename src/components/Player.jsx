@@ -1,6 +1,4 @@
-// Player.js
 
-import React from 'react';
 import Avatar from 'react-avatar';
 import { RiRadioButtonLine } from 'react-icons/ri';
 
@@ -23,21 +21,21 @@ const Player = ({ player }) => {
       }
     
   `;
-  return (
-    <div key={player.id} className="bg-blue-100 p-4 rounded-md flex items-center border border-blue-900 animate-bounce">
-        <style>{animationStyle}</style>
-      <Avatar
-        name={player.nickname}
-        size="48"
-        round={true}
-        className="mr-4"
-      />
-      <div>
-        <h3 className="text-lg font-semibold text-gray-800">{player.nickname}</h3>
-        <p className="text-gray-600 flex items-center"> <RiRadioButtonLine className="text-green-600 mr-2"/>Online</p>
-      </div>
-    </div>
-  );
+    return (
+        <div key={player.id} className="bg-blue-100 p-4 rounded-md flex items-center border border-blue-900 animate-bounce">
+            <style>{animationStyle}</style>
+            <Avatar
+                name={player.nickname}
+                size="48"
+                round={true}
+                className="mr-4"
+            />
+            <div>
+                <h3 className="text-lg font-semibold text-gray-800">{player.nickname}</h3>
+                <p className="text-gray-600 flex items-center"> <RiRadioButtonLine className="text-green-600 mr-2" />Online</p>
+            </div>
+        </div>
+    );
 };
 
 export default Player;
