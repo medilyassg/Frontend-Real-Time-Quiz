@@ -15,7 +15,7 @@ const LoginPage=()=>{
         const csrf=await api.get('/sanctum/csrf-cookie')
     
         const login = await api.post('/api/v1/auth/login',{
-          email:'jovani24@example.com',
+          email:'runte.annabelle@example.org',
           password:'password'
         })
     
