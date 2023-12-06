@@ -37,6 +37,7 @@ const routes=createBrowserRouter([
                 element:<HostWaitingRoom />
             },
             
+            
         ],
         errorElement : <div>Error Page</div>
 
