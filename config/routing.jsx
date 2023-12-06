@@ -4,7 +4,8 @@ import HomePage from '../src/components/HomePage'
 import LoginPage from '../src/components/LoginPage'
 import QuizCodeEntry from '../src/components/QuizCodeEntry'
 import QuizNicknameEntry from '../src/components/QuizNicknameEntry'
-import WaitingRoom from '../src/components/PlayerWaitingRoom'
+import HostWaitingRoom from '../src/components/HostWaitingRoom'
+import PlayerWaitingRoom from '../src/components/PlayerWaitingRoom'
 
 const routes=createBrowserRouter([
     {
@@ -29,7 +30,11 @@ const routes=createBrowserRouter([
             },
             {
                 path:"waiting",
-                element:<WaitingRoom />
+                element:<PlayerWaitingRoom />
+            },
+            {
+                path:"hostwaiting",
+                element:<HostWaitingRoom />
             },
             
         ],

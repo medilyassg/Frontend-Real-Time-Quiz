@@ -2,10 +2,14 @@ import { useState, useEffect } from 'react';
 import { Store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import {ReactNotifications} from 'react-notifications-component';
+import DotLoading from './DotLoading';
+import { useNavigate } from 'react-router-dom';
 
 const QuizNicknameEntry = () => {
   const [nickname, setNickname] = useState('');
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     
@@ -22,6 +26,14 @@ const QuizNicknameEntry = () => {
     console.log(`Validating nickname: ${nickname}`);
     if(nickname==""){
       showNotification('Oops!',"Oops ! You must enter a nickname before you can play", 'danger');
+    }
+    else{
+      setIsLoading(true);
+      setTimeout(() => {
+        
+        navigate('/waiting');
+        setIsLoading(false);
+      }, 1500); 
 
     }
   };
@@ -43,6 +55,8 @@ const QuizNicknameEntry = () => {
   };
 
   return (
+    <>
+    {isLoading ? <DotLoading /> :
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b bg-gradient-to-tr from-blue-400 to-cyan-200">
       <ReactNotifications />
       <div
@@ -83,6 +97,8 @@ const QuizNicknameEntry = () => {
         <p>&copy; 2023 QuizzMinds. All rights reserved.</p>
       </footer>
     </div>
+}
+    </>
   );
 };
 

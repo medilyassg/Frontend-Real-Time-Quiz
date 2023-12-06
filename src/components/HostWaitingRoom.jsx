@@ -19,27 +19,7 @@ const PlayerWaitingRoom = () => {
 
   const shareMessage = `Join my quiz room on QuizzMinds! Room Code: ${roomId} - quizzminds.com`;
 
-  const animationStyle = `
-    @keyframes dots {
-      0%, 20% {
-        content: '.';
-      }
-      40% {
-        content: '. .';
-      }
-      60% {
-        content: '. . .';
-      }
-      80%, 100% {
-        content: '';
-      }
-    }
-    .animate-dots::after {
-      content: '';
-      display: inline-block;
-      animation: dots 1.5s infinite steps(1);
-    }
-  `;
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b bg-gradient-to-tr from-blue-400 to-cyan-200">
@@ -55,13 +35,13 @@ const PlayerWaitingRoom = () => {
         </div>
 
         <div className="p-6 rounded-md text-center">
-          <h2 className="text-2xl font-bold mb-4 text-blue-500">Get Ready!</h2>
-          <style>{animationStyle}</style>
-          <p className="text-2xl">
-            The game is about to begin <span className="animate-dots text-2xl"></span>
-          </p>
+          <h2 className="text-3xl font-bold mb-4 text-blue-500">QuizzMinds</h2>
+          <button className="w-36 bg-blue-500 text-white py-2 px-5  rounded-md hover:bg-blue-700 transition-all duration-300 ">
+            start
+          </button>
+          
         </div>
-
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           {players.map((player) => (
                         <Player key={player.id} player={player} />
