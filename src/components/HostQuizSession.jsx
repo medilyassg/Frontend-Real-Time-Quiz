@@ -1,5 +1,9 @@
 // HostQuizSession.jsx
 import React, { useState, useEffect } from 'react';
+import { FaStar } from 'react-icons/fa';
+import { IoTriangle } from 'react-icons/io5';
+import { FaCircle } from 'react-icons/fa6';
+import { RiRectangleFill } from 'react-icons/ri';
 
 const shuffleArray = (array) => {
   const shuffledArray = [...array];
@@ -13,31 +17,20 @@ const shuffleArray = (array) => {
 const HostQuizSession = () => {
   const initialQuestions = [
     {
-      question: "What is the capital of France?",
-      correctAnswer: "Paris",
-      answers: ["Berlin", "Madrid", "Paris", "Rome"],
+      question: 'What is the capital of France?',
+      correctAnswer: 'Paris',
+      answers: ['Berlin', 'Madrid', 'Paris', 'Rome'],
     },
     {
-      question: "What is the capital of Uruguay?",
-      correctAnswer: "Montevideo",
-      answers: ["Berlin", "Montevideo", "Paris", "Rome"],
+      question: 'What is the capital of Uruguay?',
+      correctAnswer: 'Montevideo',
+      answers: ['Berlin', 'Montevideo', 'Paris', 'Rome'],
     },
   ];
 
   const [questions, setQuestions] = useState(shuffleArray(initialQuestions));
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timer, setTimer] = useState(15);
-
-  const handleNextQuestion = () => {
-    setTimer(15);
-
-    if (currentQuestionIndex === questions.length - 1) {
-      console.log("Quiz ended");
-      // Stop the game or redirect to another page
-    } else {
-      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-    }
-  };
 
   const handleTimeoutNextQuestion = () => {
     setTimer(15);
@@ -55,38 +48,31 @@ const HostQuizSession = () => {
   }, [timer]);
 
   const answerColors = ['bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-red-500'];
+  const answerIcons = [<FaStar size={32} />, <IoTriangle size={32} />, <FaCircle size={32} />, <RiRectangleFill size={32} />];
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="max-w-2xl mx-auto p-4 bg-white shadow-lg rounded-md">
+      <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-md">
         {/* Question outside the box */}
-        <h2 className="text-4xl font-bold mb-4 text-center">
+        <h2 className="text-3xl font-bold mb-4 text-center">
           Question {currentQuestionIndex + 1}: {questions[currentQuestionIndex].question}
         </h2>
         <div className="grid grid-cols-2 gap-4">
-          {questions[currentQuestionIndex].answers.map((answer, index) => (
+          {answerIcons.map((icon, index) => (
             <div
               key={index}
-              className={`p-4 text-4xl font-bold rounded-md ${answerColors[index]} text-white`}
+              className={`flex items-center p-4 text-lg font-bold rounded-md ${answerColors[index]} text-white`}
             >
-              {String.fromCharCode(65 + index)} - {answer}
+              <div className="bg-gray-200 rounded-full h-12 w-12 flex items-center justify-center mr-4">
+                {icon}
+              </div>
+              <div>{questions[currentQuestionIndex].answers[index]}</div>
             </div>
           ))}
         </div>
         <div className="mt-4">
           <p className="text-xl font-bold text-center">Time remaining: {timer}s</p>
         </div>
-
-        {/* Host controls */}
-        <div className="mt-4 flex justify-center space-x-4">
-          <button
-            className="py-2 px-4 text-sm font-medium text-white rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300"
-            onClick={handleNextQuestion}
-          >
-            Next Question
-          </button>
-        </div>
-
         {/* Timeout Next Question button */}
         {timer === 0 && (
           <div className="mt-4 text-center">
