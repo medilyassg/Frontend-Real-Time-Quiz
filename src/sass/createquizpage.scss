@@ -1,0 +1,476 @@
+.createquiz{
+    height: calc(100vh - 4rem);
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    .diapositive{
+        width: 20%;
+        height: 100%;
+        background-color: #0080bf;
+        .btn-ajouter-question{
+            margin-top: 1rem;
+            text-align: center;
+            cursor: pointer;
+
+        }
+        .btn-responcive1{
+            margin: 0px 15px;
+        }
+        .btn-responcive2{
+            display: none;
+        }
+        .diapositive-section{
+            height: 85%;
+            display: block;
+            margin-top: 1rem;
+            overflow-y: auto;
+            .diapositive-item{
+                cursor: pointer;
+                border-radius: 5px;
+                padding: 0.3rem;
+                margin: 7px 5px 0px 5px;
+                display: flex;
+                height: 18%;
+                gap: 3px;
+                .btn-diapositive{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    .duplicate,.trash{
+                        color: gray;
+                        cursor: pointer;
+                    }
+                    .warning{
+                        color:blue;
+                        cursor: pointer;
+                    }
+                }
+                .screen-diapositive{
+                    background-color: #7ce8ff;
+                    width: 85%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 3px;
+                    font-weight: bold;
+                    color: white;
+                    
+                }
+            }
+        }
+    }
+    .generatequiz{
+        width: 100%;
+        height: 100%;
+        background-color: rgb(202, 202, 202);
+        .Question{
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            .affiche-menu{
+                background-color: white;
+                margin-top: 4.9rem;
+                font-size: 2rem;
+                padding: 0.2rem;
+                border-radius: 50%;
+                cursor: pointer;
+                display: none;
+            }
+        }
+        .option-question{
+            width: 100%;
+            height: 45%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            flex: 1 1 auto;
+            margin: 0 auto;
+            margin-top: 20vh;
+            .option-item{
+                border-radius: 7px;
+                background-color: #fff;
+                display: flex;
+                align-items: center;
+                width: 45%;
+                height: 33%;
+                gap: 1rem;
+                .list-question{
+                    width: 7%;
+                    height: 100%;
+                    background-color: #FCC822;
+                }
+                .checkbox-wrapper-31:hover .check {
+                    stroke-dashoffset: 0;
+                  }
+                  
+                  .checkbox-wrapper-31 {
+                    position: relative;
+                    display: inline-block;
+                    width: 40px;
+                    height: 40px;
+                  
+                    .background {
+                      fill: #ccc;
+                      transition: ease all 0.6s;
+                      -webkit-transition: ease all 0.6s;
+                    }
+                  
+                    .stroke {
+                      fill: none;
+                      stroke: #fff;
+                      stroke-miterlimit: 10;
+                      stroke-width: 2px;
+                      stroke-dashoffset: 100;
+                      stroke-dasharray: 100;
+                      transition: ease all 0.6s;
+                      -webkit-transition: ease all 0.6s;
+                    }
+                  
+                    .check {
+                      fill: none;
+                      stroke: #fff;
+                      stroke-linecap: round;
+                      stroke-linejoin: round;
+                      stroke-width: 2px;
+                      stroke-dashoffset: 22;
+                      stroke-dasharray: 22;
+                      transition: ease all 0.6s;
+                      -webkit-transition: ease all 0.6s;
+                    }
+                  
+                    input[type=checkbox] {
+                      position: absolute;
+                      width: 100%;
+                      height: 100%;
+                      left: 0;
+                      top: 0;
+                      margin: 0;
+                      opacity: 0;
+                      -appearance: none;
+                      -webkit-appearance: none;
+                  
+                      &:hover {
+                        cursor: pointer;
+                      }
+                  
+                      &:checked + svg {
+                        .background {
+                          fill: #6cbe45;
+                        }
+                  
+                        .stroke {
+                          stroke-dashoffset: 0;
+                        }
+                  
+                        .check {
+                          stroke-dashoffset: 0;
+                        }
+                      }
+                    }
+                  }
+            }
+        }
+    }
+    .btn-display{
+        .btn-click{
+            background-color: white;
+            padding: 0.5rem;
+            font-size: 1.2rem;
+            position: absolute;
+            top: 50%;
+            transform: translate(-100%,-50%);
+        }
+        
+    }
+
+    .optionquiz{
+        width: 33%;
+        height: 100%;
+        background-color: #0080bf;
+        .align-optionquiz{
+            width: 100%;
+            height: 100%;
+            padding: 2vh;
+            .cache-meny{
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                font-size: 1.5rem;
+                cursor: pointer;
+                display: none;
+            }
+        }
+    }
+}
+@media only screen and (max-width: 2756px) {
+    .createquiz{
+        .diapositive{
+            .btn-ajouter-question{
+                font-size: 0.8rem;
+    
+            }
+        }
+        .generatequiz{
+            .option-question{
+                .option-item{
+                    input{
+                        width: 80%;
+                    }
+                }
+            }
+        }
+    }
+
+}
+@media only screen and (max-width: 1366px) {
+    .createquiz{
+        .generatequiz{
+            .option-question{
+                .option-item{
+                    input{
+                        width: 70%;
+                    }
+                }
+            }
+        }
+    }
+
+}
+@media only screen and (max-width: 1200px) {
+    .createquiz{
+        .generatequiz{
+            .option-question{
+                .option-item{
+                    input{
+                        width: 60%;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+@media only screen and (max-width: 1099px) {
+    .createquiz{
+        .generatequiz{
+            .Question{
+                .affiche-menu{
+                    display: block;
+                }
+            }
+        }
+        .optionquiz{
+            width: 25%;
+            .align-optionquiz{
+                .cache-meny{
+                    display: flex;
+                }
+            }
+        }
+        .btn-display{
+            display: none;    
+        }
+        .optionquiz{
+            position: fixed;
+            right: 0;
+        }
+        
+    }
+}
+@media only screen and (max-width: 920px) {
+    .createquiz{
+        .generatequiz{
+            .option-question{
+                margin-top: 15vh;
+            }
+        }
+        .diapositive{
+            .btn-ajouter-question{
+                font-size: 0.7rem;
+    
+            }
+            .btn-responcive1{
+                display: none;
+            }
+            .btn-responcive2{
+                display: block;
+            }
+            height: 20%;
+            position: fixed;
+            bottom: 0;
+            width: 100vw;
+            z-index: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            .diapositive-section{
+                display: flex;
+                gap: 0.5rem;
+                height: 100%;
+                width: 90%;
+                overflow-x: auto;
+                overflow-y: hidden;
+                padding-bottom: 1rem;                
+                .diapositive-item{
+                    margin-top: 7px;
+                    flex: 0 0 auto;
+                    display: flex;
+                    height: 100%;
+                    width: 20%;
+                    gap: 3px;
+                    .btn-diapositive{
+                        display: flex;
+                        justify-content: space-around;
+                        .duplicate,.trash{
+                            color: gray;
+                        }
+                        .warning{
+                            color:gold;
+                        }
+                    }
+                    .screen-diapositive{
+                        
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 3px;
+                        font-weight: bold;
+                        
+                    }
+                }
+            }
+        }
+        .generatequiz{
+            height: calc(100% - 13%);
+        }
+        .btn-display{
+            z-index: 10;
+        }
+        .optionquiz{
+            z-index: 10;
+            width: 30%;
+        }
+    }
+}
+@media only screen and (max-width: 800px) {
+    .btnNavBar{
+        position: absolute;
+        right: 1rem;
+    }
+    .createquiz{
+        .optionquiz{
+            width: 35%;
+        }
+        
+    }
+}
+
+@media only screen and (max-width: 742px) {
+    .createquiz{
+        .diapositive{
+            .diapositive-section{                
+                .diapositive-item{
+                    width: 25%;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .btnNavBar{
+        position: static;
+        right: unset;
+    }
+}
+
+@media only screen and (max-width: 656px) {
+    .createquiz{
+        .diapositive{
+            width: 100%;
+        }
+        .optionquiz{
+            width: 40%;
+            top: 0;
+        }
+        .btn-display{
+            display: none;
+        }
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+    .createquiz{
+        .optionquiz{
+            width: 50%;
+            top: 0;
+        }
+    }
+}
+
+@media only screen and (max-width: 479px) {
+    .createquiz{
+        .optionquiz{
+            width: 60%;
+            top: 0;
+        }
+        .diapositive{
+            .diapositive-section{                
+                .diapositive-item{
+                    width: 30%;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 404px) {
+    .createquiz{
+        .optionquiz{
+            width: 70%;
+            top: 0;
+        }
+        .diapositive{
+            .diapositive-section{                
+                .diapositive-item{
+                    width: 40%;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 343px) {
+    .createquiz{
+        .optionquiz{
+            width: 80%;
+            top: 0;
+        }
+        .diapositive{
+            .diapositive-section{                
+                .diapositive-item{
+                    width: 50%;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 309px) {
+    .createquiz{
+        .optionquiz{
+            width: 90%;
+            top: 0;
+        }
+    }
+}
