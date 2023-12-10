@@ -13,7 +13,6 @@ const ParticipantQuizSession = () => {
   const navigate = useNavigate();
 
   const handleAnswerClick = (index) => {
-    // Check if the timer has run out or the answer is already selected, and ignore the click if true
     if (timer === 0 || selectedAnswer !== null) {
       return;
     }
