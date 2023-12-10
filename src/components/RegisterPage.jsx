@@ -31,18 +31,11 @@ const RegisterPage = () => {
     confirmPassword !== "" && confirmPassword !== password;
 
   return (
-    <div className="w-screen flex flex-col items-center">
-      <Card className="lg:w-1/3 my-2">
-        <CardHeader className="flex gap-3">
-          <Image
-            alt="nextui logo"
-            height={40}
-            radius="sm"
-            src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-            width={40}
-          />
+    <div className="w-screen flex flex-col items-center justify-center">
+      <Card className="lg:w-1/3 my-2 md:my-7">
+      <CardHeader className="flex  justify-center">
           <div className="flex flex-col">
-            <p className="text-md">QuizMinds</p>
+            <p className="text-2xl font-bold">QuizMinds</p>
           </div>
         </CardHeader>
         <Divider />

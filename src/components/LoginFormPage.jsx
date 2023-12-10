@@ -35,16 +35,9 @@ export default function LoginFormPage() {
   return (
     <div className="w-screen flex flex-col items-center">
       <Card className="lg:w-1/3 my-7">
-        <CardHeader className="flex gap-3">
-          <Image
-            alt="nextui logo"
-            height={40}
-            radius="sm"
-            src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-            width={40}
-          />
+        <CardHeader className="flex  justify-center">
           <div className="flex flex-col">
-            <p className="text-md">QuizMinds</p>
+            <p className="text-2xl font-bold">QuizMinds</p>
           </div>
         </CardHeader>
         <Divider />
