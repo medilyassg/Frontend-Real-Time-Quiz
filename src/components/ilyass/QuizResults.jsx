@@ -16,7 +16,6 @@ const QuizResults = ({ participants }) => {
       }))
     );
 
-    // Set column headers
     XLSX.utils.sheet_add_aoa(worksheet, [['ID', 'Name', 'Q1', 'Q2', 'Q3', 'Q4']], { origin: 'A1' });
 
     const workbook = XLSX.utils.book_new();
