@@ -4,11 +4,11 @@ import {
   CardBody,
   CardHeader,
   Divider,
-  Image,
   Input,
   Link,
 } from "@nextui-org/react";
 import { useState } from "react";
+import { api } from "../../config/axios";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -29,7 +29,16 @@ const RegisterPage = () => {
   const isPasswordInvalid = password !== "" && !validatePassword(password);
   const isConfirmPasswordInvalid =
     confirmPassword !== "" && confirmPassword !== password;
-
+  async function handleRegister(){
+    const csrf = await api.get("/sanctum/csrf-cookie");
+    const register = await api.post("/api/v1/registre", {
+      name:name,
+      email: email,
+      password: password,
+    },{headers: {
+      'X-XSRF-TOKEN': csrf.data.csrf_token,
+    },});
+  }
   return (
     <div className="w-screen flex flex-col items-center justify-center">
       <Card className="lg:w-1/3 my-2 md:my-7">
@@ -79,7 +88,7 @@ const RegisterPage = () => {
             label="Confirm password"
             size="sm"
           />
-          <Button color="primary">Register</Button>
+          <Button color="primary" onClick={handleRegister}>Register</Button>
           <p className="text-center">
             Already have an account
             <Link href="/login" className="ml-1">

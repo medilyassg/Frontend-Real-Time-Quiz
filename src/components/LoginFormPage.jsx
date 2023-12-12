@@ -5,15 +5,23 @@ import {
   Divider,
   CardFooter,
   Link,
-  Image,
   Input,
   Button,
 } from "@nextui-org/react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { api } from "../../config/axios";
+import { addAuthData, isLogin } from "../store/authDataReducer";
+import { useDispatch, useSelector } from "react-redux";
+
 export default function LoginFormPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  let dataUser = useSelector((state) => state);
 
+  useEffect(() => {
+    handleLogin();
+  }, []);
   const validateEmail = (email) =>
     email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
 
@@ -31,6 +39,20 @@ export default function LoginFormPage() {
 
     return validatePassword(password) ? false : true;
   }, [password]);
+  async function handleLogin() {
+    const csrf = await api.get("/sanctum/csrf-cookie");
+
+    const login = await api.post("/api/v1/auth/login", {
+      email: email,
+      password: password,
+    });
+    const user = await api.get("/api/v1/user");
+    if (user.status >= 200 && user.status < 300) {
+      dispatch(addAuthData(user.data.data));
+      dispatch(isLogin());
+    }
+  }
+  console.log(dataUser);
 
   return (
     <div className="w-screen flex flex-col items-center">
@@ -54,21 +76,23 @@ export default function LoginFormPage() {
           <Input
             isInvalid={isPasswordInvalid}
             color={isPasswordInvalid ? "danger" : ""}
-            errorMessage={isPasswordInvalid && "The password should be 8 characters containing: \n uppercase, lowercase and numbers"}
+            errorMessage={
+              isPasswordInvalid &&
+              "The password should be 8 characters containing: \n uppercase, lowercase and numbers"
+            }
             onValueChange={setPassword}
             type="password"
             label="Password"
             size="sm"
           />
-          <Button color="primary">Login</Button>
+          <Button color="primary" onClick={handleLogin}>
+            Login
+          </Button>
         </CardBody>
         <Divider />
         <CardFooter className="flex justify-center">
           Don't have an account
-          <Link
-            href="/register"
-            className="ml-1"
-          >
+          <Link href="/register" className="ml-1">
             register now !
           </Link>
         </CardFooter>
