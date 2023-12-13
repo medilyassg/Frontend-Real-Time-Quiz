@@ -8,20 +8,19 @@ import {
   Input,
   Button,
 } from "@nextui-org/react";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { api } from "../../config/axios";
 import { addAuthData, isLogin } from "../store/authDataReducer";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginFormPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   let dataUser = useSelector((state) => state);
+  const navigate=useNavigate()
 
-  useEffect(() => {
-    handleLogin();
-  }, []);
   const validateEmail = (email) =>
     email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
 
@@ -32,7 +31,9 @@ export default function LoginFormPage() {
   }, [email]);
 
   const validatePassword = (password) =>
-    password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/);
+    password.match(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])[A-Za-z\d!@#$%^&*()-_+=]{8,}$/
+    );
 
   const isPasswordInvalid = useMemo(() => {
     if (password === "") return false;
@@ -40,19 +41,32 @@ export default function LoginFormPage() {
     return validatePassword(password) ? false : true;
   }, [password]);
   async function handleLogin() {
-    const csrf = await api.get("/sanctum/csrf-cookie");
-
-    const login = await api.post("/api/v1/auth/login", {
-      email: email,
-      password: password,
-    });
-    const user = await api.get("/api/v1/user");
-    if (user.status >= 200 && user.status < 300) {
-      dispatch(addAuthData(user.data.data));
-      dispatch(isLogin());
+    try {
+      const csrf = await api.get("/sanctum/csrf-cookie");
+      const login = await api.post("/api/v1/auth/login", {
+        email: email,
+        password: password,
+      },
+      {
+        headers: {
+          'X-XSRF-TOKEN': csrf.token,
+        },
+      });
+  
+      const user = await api.get("/api/v1/user");
+  
+      if (user.status >= 200 && user.status < 300) {
+        dispatch(addAuthData(user.data.data));
+        dispatch(isLogin());
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      navigate("/login")
     }
   }
-  console.log(dataUser);
+  
+  // console.log(dataUser);
 
   return (
     <div className="w-screen flex flex-col items-center">
@@ -63,32 +77,34 @@ export default function LoginFormPage() {
           </div>
         </CardHeader>
         <Divider />
-        <CardBody className="flex flex-col gap-5 p-6">
-          <Input
-            type="email"
-            label="Email"
-            size="sm"
-            isInvalid={isInvalid}
-            color={isInvalid ? "danger" : ""}
-            errorMessage={isInvalid && "Please enter a valid email"}
-            onValueChange={setEmail}
-          />
-          <Input
-            isInvalid={isPasswordInvalid}
-            color={isPasswordInvalid ? "danger" : ""}
-            errorMessage={
-              isPasswordInvalid &&
-              "The password should be 8 characters containing: \n uppercase, lowercase and numbers"
-            }
-            onValueChange={setPassword}
-            type="password"
-            label="Password"
-            size="sm"
-          />
-          <Button color="primary" onClick={handleLogin}>
-            Login
-          </Button>
-        </CardBody>
+          <CardBody className="flex flex-col gap-5 p-6">
+            <Input
+              isRequired
+              type="email"
+              label="Email"
+              size="sm"
+              isInvalid={isInvalid}
+              color={isInvalid ? "danger" : ""}
+              errorMessage={isInvalid && "Please enter a valid email"}
+              onValueChange={setEmail}
+            />
+            <Input
+              isRequired
+              isInvalid={isPasswordInvalid}
+              color={isPasswordInvalid ? "danger" : ""}
+              errorMessage={
+                isPasswordInvalid &&
+                "The password should be 8 characters containing: \n uppercase, lowercase, special character and numbers"
+              }
+              onValueChange={setPassword}
+              type="password"
+              label="Password"
+              size="sm"
+            />
+            <Button color="primary" onSubmit={handleLogin}>
+              Login
+            </Button>
+          </CardBody>
         <Divider />
         <CardFooter className="flex justify-center">
           Don't have an account
