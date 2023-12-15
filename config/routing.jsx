@@ -8,6 +8,10 @@ import QuizNicknameEntry from '../src/components/JoinGameComponents/QuizNickname
 import HostWaitingRoom from '../src/components/JoinGameComponents/HostWaitingRoom'
 import PlayerWaitingRoom from '../src/components/JoinGameComponents/PlayerWaitingRoom'
 import ScoreTable from '../src/components/JoinGameComponents/ScoreTable'
+import HostQuizSession from '../src/components/HostSession/HostQuizSession'
+import ParticipantQuizSession from '../src/components/ParticipantSession/ParticipantQuizSession'
+import ParticipantWaiting from '../src/components/ParticipantSession/ParticipantWaiting'
+import ParticipantScore from '../src/components/ParticipantSession/ParticipantScore'
 
 const routes=createBrowserRouter([
     {
@@ -49,8 +53,23 @@ const routes=createBrowserRouter([
                 path:"score",
                 element:<ScoreTable />
             },
+            {
             
-            
+                path:"HostSession",
+                element:<HostQuizSession/>
+            },
+            {
+                path:"ParticipantSession",
+                element:<ParticipantQuizSession />
+            },
+            {
+                path:"ParticipantWaiting",
+                element:<ParticipantWaiting />
+            },
+            {
+                path:"ParticipantScore",
+                element:<ParticipantScore />
+            },
         ],
         errorElement : <div>Error Page</div>
 
