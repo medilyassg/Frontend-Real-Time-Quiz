@@ -12,6 +12,8 @@ import HostQuizSession from '../src/components/HostSession/HostQuizSession'
 import ParticipantQuizSession from '../src/components/ParticipantSession/ParticipantQuizSession'
 import ParticipantWaiting from '../src/components/ParticipantSession/ParticipantWaiting'
 import ParticipantScore from '../src/components/ParticipantSession/ParticipantScore'
+import LoginFormPage from '../src/components/LoginFormPage'
+import RegisterPage from '../src/components/RegisterPage'
 
 const routes=createBrowserRouter([
     {
@@ -69,6 +71,17 @@ const routes=createBrowserRouter([
             {
                 path:"ParticipantScore",
                 element:<ParticipantScore />
+            },{
+                path:"dashboard",
+                element:<LoginPage />
+            },
+            {
+                path:"login",
+                element:<LoginFormPage/>
+            },
+            {
+                path:"register",
+                element:<RegisterPage/>
             },
         ],
         errorElement : <div>Error Page</div>
