@@ -1,5 +1,5 @@
 // ParticipantQuizSession.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 import { IoTriangle } from 'react-icons/io5';
