@@ -46,11 +46,6 @@ export default function LoginFormPage() {
       const login = await api.post("/api/v1/auth/login", {
         email: email,
         password: password,
-      },
-      {
-        headers: {
-          'X-XSRF-TOKEN': csrf.token,
-        },
       });
   
       const user = await api.get("/api/v1/user");
@@ -66,7 +61,7 @@ export default function LoginFormPage() {
     }
   }
   
-  // console.log(dataUser);
+  console.log(dataUser);
 
   return (
     <div className="w-screen flex flex-col items-center">
@@ -99,9 +94,9 @@ export default function LoginFormPage() {
               onValueChange={setPassword}
               type="password"
               label="Password"
-              size="sm"
+              size="sm" 
             />
-            <Button color="primary" onSubmit={handleLogin}>
+            <Button color="primary" onClick={handleLogin}>
               Login
             </Button>
           </CardBody>

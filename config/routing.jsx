@@ -15,7 +15,7 @@ const routes=createBrowserRouter([
                 element:<HomePage />
             },
             {
-                path:"dashbord",
+                path:"dashboard",
                 element:<LoginPage />
             },
             {
