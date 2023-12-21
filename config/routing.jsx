@@ -25,14 +25,6 @@ const routes=createBrowserRouter([
                 element:<HomePage />
             },
             {
-                path:"home",
-                element:<div>Home Page</div>
-            },
-            {
-                path:"login",
-                element:<LoginPage />
-            },
-            {
                 path:"creator",
                 element:<CreateQuizPage />
             },{
