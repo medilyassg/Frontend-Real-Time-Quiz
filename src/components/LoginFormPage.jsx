@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import { useState, useMemo } from "react";
 import { api } from "../../config/axios";
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 export default function LoginFormPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -94,9 +94,9 @@ export default function LoginFormPage() {
         <Divider />
         <CardFooter className="flex justify-center">
           Don't have an account
-          <Link href="/register" className="ml-1">
+          <NavLink to="/register" className="ml-1 text-blue-600">
             register now !
-          </Link>
+          </NavLink>
         </CardFooter>
       </Card>
     </div>

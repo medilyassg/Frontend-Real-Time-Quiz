@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { api } from "../../config/axios";
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -103,9 +103,9 @@ const RegisterPage = () => {
             </Button>
           <p className="text-center">
             Already have an account
-            <Link href="/login" className="ml-1">
+            <NavLink to="/login" className="ml-1 text-blue-600">
               login now !
-            </Link>
+            </NavLink>
           </p>
         </CardBody>
           </form>

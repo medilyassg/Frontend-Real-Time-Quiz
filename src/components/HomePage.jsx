@@ -7,6 +7,7 @@ import {
   Image,
 } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
+import { NavLink } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -17,13 +18,13 @@ const HomePage = () => {
         </NavbarBrand>
         <NavbarContent justify="end">
           <NavbarItem className="hidden lg:flex">
-            <Link className="text-white" href="/login">
+            <NavLink className="text-white" to="/login">
               Login
-            </Link>
+            </NavLink>
           </NavbarItem>
           <NavbarItem>
-            <Button as={Link} color="primary" href="/register">
-              Sign Up
+            <Button color="primary">
+              <NavLink to="/register">Sign Up</NavLink>
             </Button>
           </NavbarItem>
         </NavbarContent>
@@ -42,8 +43,8 @@ const HomePage = () => {
                 quizmaster and invite friends to join the fun!
               </p>
               <div className="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-                <Button as={Link} color="primary" href="/login">
-                  Let's start
+                <Button color="primary">
+                  <NavLink to="/login">Let's start</NavLink>
                 </Button>
               </div>
             </div>
