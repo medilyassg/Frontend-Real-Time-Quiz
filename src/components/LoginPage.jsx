@@ -1,7 +1,5 @@
 import { api } from "../../config/axios";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addAuthData, isLogin } from "../store/authDataReducer";
 import {
   Avatar,
   Button,
@@ -13,11 +11,12 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const [userData,setUserData]=useState({})
+  const [isLogin,setIsLogin]=useState(null)
+  const navigate=useNavigate()
   const menuItems = [
     { label: "Profile", link: "/profile" },
     { label: "Dashboard", link: "/dashboard" },
@@ -27,29 +26,26 @@ const LoginPage = () => {
     { label: "Old users", link: "#" },
     { label: "Log Out", link: "/logout" },
   ];
-  const dispatch = useDispatch();
-  let dataUser = useSelector((state) => state);
 
   useEffect(() => {
     getUser();
   }, []);
 
   async function getUser() {
-    const csrf = await api.get("/sanctum/csrf-cookie");
+    await api.get("/api/v1/user").then((response)=>{
+        setUserData(()=>response.data.data)
+        setIsLogin(true)
+    }).catch((error)=>{
+      if (error.response.status === 401) {
+        setIsLogin(false)
 
-    // const login = await api.post("/api/v1/auth/login", {
-    //   email: "jovani24@example.com",
-    //   password: "password",
-    // });
-
-    const user = await api.get("/api/v1/user");
-    if (user.status >= 200 && user.status < 300) {
-      dispatch(addAuthData(user.data.data));
-      dispatch(isLogin());
     }
+    })
   }
-  console.log(dataUser);
-
+  if(!isLogin){
+    navigate("/login",{ replace: true })
+    return;
+  }
   return (
     <div>
       <Navbar onMenuOpenChange={setIsMenuOpen} className="lg:fixed md:fixed xl:fixed 2xl:fixed bg-[#111233]">
@@ -69,7 +65,7 @@ const LoginPage = () => {
             </Button>
           </NavbarItem>
           <NavbarItem>
-            <Avatar name="Jane" />
+            <Avatar name={userData.name} />
           </NavbarItem>
         </NavbarContent>
         <NavbarMenu>
@@ -224,15 +220,15 @@ const LoginPage = () => {
                 href="#"
                 className="flex items-center gap-2 bg-white p-4 hover:bg-gray-50"
               >
-                <Avatar name="jane"/>
+                <Avatar name={userData.name}/>
 
                 <div>
                   <p className="text-xs">
                     <strong className="block font-medium">
-                      Jane Frusciante
+                      {userData.name}
                     </strong>
 
-                    <span> jane@frusciante.com </span>
+                    <span> {userData.email} </span>
                   </p>
                 </div>
               </a>

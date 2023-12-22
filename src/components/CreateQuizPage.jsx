@@ -9,8 +9,12 @@ import NavBarComponent from './CreateQuizComponents/NavBarComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { showing,display } from '../store/displayComponentReducer';
 import { update_answer } from '../store/createQuizReducer';
+import { useNavigate } from 'react-router-dom';
+import { api } from '../../config/axios';
 const CreateQuizPage=()=>{
     const dispatch=useDispatch()
+    const navigate=useNavigate()
+    const [isLogin,setIsLogin]=useState(null)
     const showingData=useSelector(state=>state.display)
     const createQuiz=useSelector(state=>state.createQuizData)
     const [typequiz,setTypeQuiz]=useState(["Quiz"])
@@ -23,6 +27,24 @@ const CreateQuizPage=()=>{
     useEffect(()=>{
         setAnswerValue(createQuiz.ansewrs[createQuiz.currentIndex]?.question || "")
     },[createQuiz.currentIndex,createQuiz.etat])
+    useEffect(() => {
+        getUser();
+      }, []);
+    
+      async function getUser() {
+        await api.get("/api/v1/user").then((response)=>{
+            setIsLogin(true)
+        }).catch((error)=>{
+            if (error.response.status === 401) {
+                setIsLogin(false)
+        
+            }
+        })
+      }
+      if(!isLogin){
+        navigate("/login",{ replace: true })
+        return;
+      }
     return<>
         <div>
             <nav className="bg-white">

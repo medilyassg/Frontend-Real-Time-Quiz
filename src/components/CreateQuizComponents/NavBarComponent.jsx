@@ -4,42 +4,44 @@ import { useNavigate } from "react-router-dom"
 import { update_nom_quiz } from "../../store/createQuizReducer"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../ParticipantSession/loader.scss'
+import {api} from '../../../config/axios'
 
 const NavBarComponent=()=>{
     const dispatch=useDispatch()
     const [nomQuiz,setNomQuiz]=useState()
     const navigate=useNavigate()
+    const [loading,setLoading]=useState(false)
     const createQuiz=useSelector(state=>state.createQuizData)
-    function enregister(){
-        if(createQuiz.nomQuiz==""){
-            toast.warning("Complétez votre quiz")
+    async function enregister(){
+        if (createQuiz.nomQuiz === "") {
+            toast.warning("Complétez votre quiz");
             return;
         }
-        createQuiz.ansewrs.forEach(item => {
-            if(item.question!=""&&
-                item.type!=""&&
-                item.temp!=""&&
-                item.point!=""&&
-                item.limitdereponse!=""&&
-                item.response[0].reponseOne!=""&&
-                item.response[1].reponseTwo!=""&&
-                item.response[2].reponseThree!=""&&
-                item.response[3].reponseFour!=""){
-            let counter =0
-            item.response.forEach(item => {
-                if(item.correct==true){
-                    counter++
-                }
-            });
-            if(counter==0){
-                toast.warning("Complétez votre quiz")
+
+        for (const item of createQuiz.ansewrs) {
+            if (
+                item.question === "" ||
+                item.type === "" ||
+                item.temp === "" ||
+                item.point === "" ||
+                item.limitdereponse === "" ||
+                item.response.some((responseItem) => responseItem.reponseOne === "" || responseItem.reponseTwo === "" || responseItem.reponseThree === "" || responseItem.reponseFour === "") ||
+                item.response.every((responseItem) => responseItem.correct === false)
+            ) {
+                toast.warning("Complétez votre quiz");
                 return;
             }
-            console.log(createQuiz)
-            return;
         }
-        toast.warning("Complétez votre quiz")
-        });
+        setLoading(true)
+        // await api.post("/api/v1/quizzes")
+    }
+    if(loading){
+        return <>
+            <div className="min-h-screen flex items-center justify-center ">
+                <div className="loader"></div>
+            </div>
+        </>
     }
     return <>
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
