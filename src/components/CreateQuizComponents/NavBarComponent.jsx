@@ -11,6 +11,7 @@ const NavBarComponent=()=>{
     const dispatch=useDispatch()
     const [nomQuiz,setNomQuiz]=useState()
     const navigate=useNavigate()
+    const [userData,setUserData]=useState({})
     const [loading,setLoading]=useState(false)
     const createQuiz=useSelector(state=>state.createQuizData)
     async function enregister(){
@@ -34,7 +35,70 @@ const NavBarComponent=()=>{
             }
         }
         setLoading(true)
-        // await api.post("/api/v1/quizzes")
+        try{
+            await api.get("/api/v1/user").then(async(response)=>{
+                setUserData(()=>response.data.data)
+                await api.post("/api/v1/quizzes",{
+                    "title":createQuiz.nomQuiz,
+                    "description":createQuiz.nomQuiz,
+                    "startTime":"2023-12-22 15:30:45",
+                    "endTime":"2023-12-22 15:30:50",
+                    "hostId":response.data.data.id
+                }).then((responsequiz)=>{
+                    let numberValueTrue=-1;
+                    createQuiz.ansewrs.forEach(async(item) => {
+                        if(item.checkValue=="reponse1"){
+                            numberValueTrue=1;
+                        }
+                        if(item.checkValue=="reponse2"){
+                            numberValueTrue=2;
+                        }
+                        if(item.checkValue=="reponse3"){
+                            numberValueTrue=3;
+                        }
+                        if(item.checkValue=="reponse4"){
+                            numberValueTrue=4;
+                        }
+                        await api.post("api/v1/question",{
+                            "text":item.question,
+                            "correctOption":numberValueTrue,
+                            "points":10,
+                            "quizId":responsequiz.data.id
+                        }).then(async(responsequestion)=>{
+                            let reponse=""
+                            for (let i = 0; i < item.response.length; i++) {
+                                if(i==0){
+                                    reponse=item.response[0].reponseOne
+                                }
+                                if(i==1){
+                                    reponse=item.response[1].reponseTwo
+                                }
+                                if(i==2){
+                                    reponse=item.response[2].reponseThree
+                                }
+                                if(i==3){
+                                    reponse=item.response[3].reponseFour
+                                }
+                                await api.post("/api/v1/options",{
+                                    "text":reponse,
+                                    "correct":item.response[i].correct,
+                                    "questionId":responsequestion.data.data.id
+                                })
+                                
+                            }
+                        })
+                    });
+                    
+                })
+
+            })
+        }catch(error){
+            console.log(error)
+        }finally{
+            setLoading(false)
+            toast.success("Votre Quiz est Enregister");
+        }
+       
     }
     if(loading){
         return <>
