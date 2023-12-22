@@ -79,6 +79,17 @@ const createQuizData = createSlice ({
                 state.ansewrs[state.currentIndex].response[2].correct=false
                 state.ansewrs[state.currentIndex].response[3].correct=true
             }
+        },
+        reset_quiz_data:(state) => {
+            state.ansewrs = [{question:"",type:"",temp:"",point:"",limitdereponse:"",response:[
+              {reponseOne:"",correct:false},
+              {reponseTwo:"",correct:false},
+              {reponseThree:"",correct:false},
+              {reponseFour:"",correct:false}
+            ],checkValue:null}];
+            state.nomQuiz = "";
+            state.currentIndex = 0;
+            state.etat = false;
         }
 
     }
@@ -86,7 +97,8 @@ const createQuizData = createSlice ({
 
 export const {add_ansewr,change_current_index,remove_element,update_answer,
     update_responseOne,update_responseTwo,update_responseThree,update_responseFour
-,update_type,update_temp,update_point,update_limitdereponse,update_nom_quiz,change_value_checkbox
+,update_type,update_temp,update_point,update_limitdereponse,update_nom_quiz,change_value_checkbox,
+reset_quiz_data
 } = createQuizData.actions;
 
 export default createQuizData.reducer;
