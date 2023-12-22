@@ -26,7 +26,7 @@ const CreateQuizPage=()=>{
     },[displayOptionQuizComponent])
     useEffect(()=>{
         setAnswerValue(createQuiz.ansewrs[createQuiz.currentIndex]?.question || "")
-    },[createQuiz.currentIndex,createQuiz.etat])
+    },[createQuiz.currentIndex,createQuiz.etat,createQuiz])
     useEffect(() => {
         getUser();
       }, []);

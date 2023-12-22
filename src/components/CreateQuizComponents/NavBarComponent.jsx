@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { update_nom_quiz } from "../../store/createQuizReducer"
@@ -6,14 +6,19 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../ParticipantSession/loader.scss'
 import {api} from '../../../config/axios'
+import { reset_quiz_data } from "../../store/createQuizReducer"; '../../store/createQuizReducer'
 
 const NavBarComponent=()=>{
     const dispatch=useDispatch()
-    const [nomQuiz,setNomQuiz]=useState()
     const navigate=useNavigate()
     const [userData,setUserData]=useState({})
     const [loading,setLoading]=useState(false)
     const createQuiz=useSelector(state=>state.createQuizData)
+    const initialNomQuiz= createQuiz.nomQuiz|| "";
+    const [nomQuiz,setNomQuiz]=useState(initialNomQuiz)
+    useEffect(()=>{
+        setNomQuiz(createQuiz.nomQuiz|| "")
+        },[createQuiz.nomQuiz,createQuiz])
     async function enregister(){
         if (createQuiz.nomQuiz === "") {
             toast.warning("Complétez votre quiz");
@@ -92,8 +97,10 @@ const NavBarComponent=()=>{
                 })
 
             })
+            dispatch(reset_quiz_data())
         }catch(error){
             console.log(error)
+            toast.error("Error");
         }finally{
             setLoading(false)
             toast.success("Votre Quiz est Enregister");

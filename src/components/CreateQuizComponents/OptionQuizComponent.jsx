@@ -35,7 +35,7 @@ const OptionQuizComponent=()=>{
             setPointquiz(createQuizData.ansewrs[createQuizData.currentIndex].point);
             setLimitquestion(createQuizData.ansewrs[createQuizData.currentIndex].limitdereponse);
         }
-    },[createQuizData.currentIndex])
+    },[createQuizData.currentIndex,createQuizData])
     return<>
         <div className='align-optionquiz'>
                     <div className='cache-meny' onClick={()=>{dispatch(showing(false));dispatch(display(false))}}>
@@ -61,14 +61,6 @@ const OptionQuizComponent=()=>{
                             <select value={tempsquiz} onChange={(e)=>{setTempsquiz(e.target.value);dispatch(update_temp(e.target.value))}} id="example6" className="block w-full rounded-md border-gray-300 pl-10 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 py-2">
                             <option value="">sélectionné</option>
                             <option value="5s">5 secondes</option>
-                            <option value="10s">10 secondes</option>
-                            <option value="20s">20 secondes</option>
-                            <option value="30s">30 secondes</option>
-                            <option value="1m">1 minutee</option>
-                            <option value="1m30s">1 minute 30 secondes</option>
-                            <option value="2m">2 minutes</option>
-                            <option value="3m">3 minutes</option>
-                            <option value="4m">4 minutes</option>
                             </select>
                         </div>
                         </div>
