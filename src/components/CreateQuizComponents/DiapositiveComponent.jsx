@@ -11,27 +11,20 @@ const DiapositiveComponent=()=>{
     const dispatch=useDispatch()
     const createQuizData=useSelector(state=>state.createQuizData)
     function verificationFiled(){
-        if(createQuizData.ansewrs[createQuizData.currentIndex]?.question!="" || ""&&
-        createQuizData.ansewrs[createQuizData.currentIndex].type!=""&&
-        createQuizData.ansewrs[createQuizData.currentIndex].temp!=""&&
-        createQuizData.ansewrs[createQuizData.currentIndex].point!=""&&
-        createQuizData.ansewrs[createQuizData.currentIndex].limitdereponse!=""&&
-        createQuizData.ansewrs[createQuizData.currentIndex].response[0].reponseOne!=""&&
-        createQuizData.ansewrs[createQuizData.currentIndex].response[1].reponseTwo!=""&&
-        createQuizData.ansewrs[createQuizData.currentIndex].response[2].reponseThree!=""&&
-        createQuizData.ansewrs[createQuizData.currentIndex].response[3].reponseFour!=""){
-            let counter =0
-            createQuizData.ansewrs[createQuizData.currentIndex]?.response.forEach(item => {
-                if(item.correct==true){
-                    counter++
-                }
-            });
-            if(counter==0){
+        for (const item of createQuizData.ansewrs) {
+            if (
+                item.question === "" ||
+                item.type === "" ||
+                item.temp === "" ||
+                item.point === "" ||
+                item.limitdereponse === "" ||
+                item.response.some((responseItem) => responseItem.reponseOne === "" || responseItem.reponseTwo === "" || responseItem.reponseThree === "" || responseItem.reponseFour === "") ||
+                item.response.every((responseItem) => responseItem.correct === false)
+            ) {
                 return false
             }
-            return true
         }
-        return false
+        return true;
     }
     function handleElementClickCurrentIndex(index){
         dispatch(change_current_index(index))
@@ -49,7 +42,7 @@ const DiapositiveComponent=()=>{
                 return<>
                 <div key={index} className="diapositive-item" onClick={()=>handleElementClickCurrentIndex(index)} style={{ "backgroundColor":createQuizData.currentIndex==index?"#EAF4FC":"" }}>
                     <div className="btn-diapositive">
-                        <div className="warning" style={{ "display":(verificationFiled()||createQuizData.currentIndex!=index)?"none":"block" }}><RiErrorWarningFill /></div>
+                        <div className="warning" style={{ "display":verificationFiled()?"none":"block" }}><RiErrorWarningFill /></div>
                         <div className="duplicate" onClick={()=>dispatch(add_ansewr({question:"",type:"",temp:"",point:"",limitdereponse:"",response:[
                         {reponseOne:"",correct:false},{reponseTwo:"",correct:false},{reponseThree:"",correct:false},{reponseFour:"",correct:false}
                         ]}))}><HiDuplicate /></div>

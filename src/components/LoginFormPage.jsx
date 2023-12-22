@@ -10,15 +10,10 @@ import {
 } from "@nextui-org/react";
 import { useState, useMemo } from "react";
 import { api } from "../../config/axios";
-import { addAuthData, isLogin } from "../store/authDataReducer";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-
 export default function LoginFormPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  let dataUser = useSelector((state) => state);
   const navigate=useNavigate()
 
   const validateEmail = (email) =>
@@ -51,8 +46,6 @@ export default function LoginFormPage() {
       const user = await api.get("/api/v1/user");
   
       if (user.status >= 200 && user.status < 300) {
-        dispatch(addAuthData(user.data.data));
-        dispatch(isLogin());
         navigate("/dashboard");
       }
     } catch (error) {
@@ -60,8 +53,6 @@ export default function LoginFormPage() {
       navigate("/login")
     }
   }
-  
-  console.log(dataUser);
 
   return (
     <div className="w-screen flex flex-col items-center">
