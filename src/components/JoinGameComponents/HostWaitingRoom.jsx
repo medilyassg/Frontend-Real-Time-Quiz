@@ -2,20 +2,15 @@ import { useState, useEffect } from 'react';
 import QRCode from 'react-qr-code';
 import { FaWhatsapp, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
 import Player from './Player';
+import echo from '../../../config/echo';
+import { api } from '../../../config/axios';
 
 const HostWaitingRoom = () => {
-  const roomId = '444';
+  const roomId = new URLSearchParams(location.search).get('roomId');
+  const quizId = new URLSearchParams(location.search).get('quizId');
 
-  const players = [
-    { id: 1, nickname: 'Player1' },
-    { id: 2, nickname: 'ilayer2' },
-    { id: 3, nickname: 'Player3' },
-    { id: 4, nickname: 'Player4' },
-    { id: 5, nickname: 'Player5' },
-    { id: 6, nickname: 'Player6' },
-    { id: 7, nickname: 'Player7' },
-    { id: 8, nickname: 'Player8' },
-  ];
+
+  const [players, setPlayers] = useState([])
 
   const shareMessage = `Join my quiz room on QuizzMinds! Room Code: ${roomId} - quizzminds.com`;
 
@@ -36,9 +31,49 @@ const HostWaitingRoom = () => {
     return () => clearInterval(timer);
   }, [gameStarted, countdown]);
 
-  const startGame = () => {
-    setGameStarted(true);
-  };
+  const startGame = async () => {
+    try {
+      const response = await api.post('/api/v1/start-quiz', { pin: roomId ,quizId:quizId});
+
+      if (response.status === 200) {
+        console.log('Quiz started successfully');
+        setGameStarted(true);
+      } else {
+        console.error('Error starting quiz:', response.status);
+      }
+    } catch (error) {
+      console.error('Error starting quiz:', error);
+    }
+  }
+  
+
+  useEffect(() => {
+    
+
+    echo.channel('player-join-room').listen('PlayerJoined', (data) => {
+      console.log('Received data:', data);
+      setPlayers((prevPlayers) => [...prevPlayers, { id: 1, nickname: data.nickname }]);
+
+    });
+
+    const getPlayers = async () => {
+      try {
+        const response = await api.post('/api/v1/get-players', { pin: roomId });
+
+        if (response.status === 200) {
+          setPlayers(response.data.players);
+        } else {
+          console.error('Error fetching players:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching players:', error);
+      }
+    };
+
+    // Call the getPlayers function when the component mounts
+    getPlayers();
+  }, []);
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b bg-gradient-to-tr from-blue-400 to-cyan-200 relative">
@@ -72,7 +107,7 @@ const HostWaitingRoom = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          {players.map((player) => (
+          {players && players.map((player) => (
             <Player key={player.id} player={player} />
           ))}
         </div>
