@@ -11,12 +11,15 @@ import { reset_quiz_data } from "../../store/createQuizReducer"; '../../store/cr
 const NavBarComponent=()=>{
     const dispatch=useDispatch()
     const navigate=useNavigate()
+    const [quizId, setQuizId] = useState("");
     const [userData,setUserData]=useState({})
     const [loading,setLoading]=useState(false)
     const createQuiz=useSelector(state=>state.createQuizData)
     const initialNomQuiz= createQuiz.nomQuiz|| "";
     const [nomQuiz,setNomQuiz]=useState(initialNomQuiz)
-    useEffect(()=>{
+    
+    useEffect(()=>
+    {
         setNomQuiz(createQuiz.nomQuiz|| "")
         },[createQuiz.nomQuiz,createQuiz])
     async function enregister(){
@@ -91,13 +94,24 @@ const NavBarComponent=()=>{
                                 })
                                 
                             }
+
                         })
-                    });
-                    
+                    }
+                    );
+                    setQuizId(responsequiz.data.id);
+
                 })
 
             })
-            dispatch(reset_quiz_data())
+            api.post('/api/v1/create-room')
+            .then((response) => {
+                navigate(`/hostwaiting?roomId=${response.data.pin}&quizId=${quizId}`)
+              console.log(response.data);
+            })
+            .catch((error) => {
+              console.error('Error creating the room:', error);
+            });
+    dispatch(reset_quiz_data())
         }catch(error){
             console.log(error)
             toast.error("Error");
@@ -107,6 +121,9 @@ const NavBarComponent=()=>{
         }
        
     }
+
+    
+
     if(loading){
         return <>
             <div className="min-h-screen flex items-center justify-center ">
