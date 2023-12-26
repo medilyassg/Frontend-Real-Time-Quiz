@@ -4,10 +4,12 @@ import { FaWhatsapp, FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
 import Player from './Player';
 import echo from '../../../config/echo';
 import { api } from '../../../config/axios';
+import { useNavigate } from 'react-router-dom';
 
 const HostWaitingRoom = () => {
   const roomId = new URLSearchParams(location.search).get('roomId');
   const quizId = new URLSearchParams(location.search).get('quizId');
+  const navigate = useNavigate();
 
 
   const [players, setPlayers] = useState([])
@@ -26,6 +28,8 @@ const HostWaitingRoom = () => {
       timer = setInterval(() => {
         setCountdown((prevCountdown) => prevCountdown - 1);
       }, 1000);
+    }else if(countdown==0){
+      navigate(`/HostSession?roomId=${roomId}&quizId=${quizId}`)
     }
 
     return () => clearInterval(timer);
