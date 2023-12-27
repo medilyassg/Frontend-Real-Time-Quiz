@@ -6,14 +6,17 @@ import echo from '../../../config/echo';
 
 const ParticipantWaiting = () => {
   const roomCode = new URLSearchParams(location.search).get('roomId');
+  const navigate=useNavigate()
   useEffect(()=>{
+    console.log(roomCode)
     echo.channel(`quiz-session-${roomCode}`).listen('QuestionTime', (data) => {
-      console.log('Received data:', data);
+      console.log(data)
+      navigate(`/ParticipantScore?roomId=${roomCode}`)
       
     });
   },[])
   return (
-    <div className="min-h-screen flex items-center justify-center ">
+    <div className="flex items-center justify-center min-h-screen ">
       <div className="loader"></div>
     </div>
   );

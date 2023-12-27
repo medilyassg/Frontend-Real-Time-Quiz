@@ -6,30 +6,17 @@ import { FaCircle } from 'react-icons/fa6';
 import { RiRectangleFill } from 'react-icons/ri';
 import { api } from '../../../config/axios';
 
-const shuffleArray = (array) => {
-  const shuffledArray = [...array];
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-  }
-  return shuffledArray;
-};
 
 const HostQuizSession = () => {
   const initialQuestions = [
     {
-      question: 'What is the capital of France?',
-      correctAnswer: 'Paris',
-      answers: ['Berlin', 'Madrid', 'Paris', 'Rome'],
-    },
-    {
-      question: 'What is the capital of Uruguay?',
-      correctAnswer: 'Montevideo',
-      answers: ['Berlin', 'Montevideo', 'Paris', 'Rome'],
-    },
+      question: '',
+      correctAnswer: '',
+      answers: ['', '', '', ''],
+    }
   ];
 
-  const [questions, setQuestions] = useState(shuffleArray(initialQuestions));
+  const [questions, setQuestions] = useState(initialQuestions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timer, setTimer] = useState(null);
   const [changeTime,setChangeTime]=useState(null)
@@ -45,7 +32,18 @@ const HostQuizSession = () => {
       return response.data
     }
     getTime().then((response)=>{
-      setTimer(response.time.time)
+      console.log("index : "+response.data.index)
+      setCurrentQuestionIndex(response.data.index)
+      setTimer(response.data.time)
+    }).catch((e)=>{
+      console.log(e)
+    })
+    const getAllQuizzes=async()=>{
+      let response=await api.post('/api/v1/allquiz',{"pin":roomCode})
+      return response.data
+    }
+    getAllQuizzes().then((response)=>{
+      setQuestions(response)
     }).catch((e)=>{
       console.log(e)
     })
@@ -71,10 +69,10 @@ const HostQuizSession = () => {
   const answerIcons = [<FaStar size={32} />, <IoTriangle size={32} />, <FaCircle size={32} />, <RiRectangleFill size={32} />];
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-md">
+    <div className="flex items-center justify-center min-h-screen">
+    <div className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-lg">
       {/* Question outside the box */}
-      <h2 className="text-3xl font-bold mb-4 text-center">
+      <h2 className="mb-4 text-3xl font-bold text-center">
         Question {currentQuestionIndex + 1}: {questions[currentQuestionIndex].question}
       </h2>
       <div className="grid grid-cols-2 gap-4">
@@ -83,7 +81,7 @@ const HostQuizSession = () => {
             key={index}
             className={`flex items-center p-4 text-lg font-bold rounded-md ${answerColors[index]} text-white`}
           >
-            <div className="bg-gray-200 rounded-full h-12 w-12 flex items-center justify-center mr-4">
+            <div className="flex items-center justify-center w-12 h-12 mr-4 bg-gray-200 rounded-full">
               {icon}
             </div>
             <div>{questions[currentQuestionIndex].answers[index]}</div>
@@ -96,10 +94,10 @@ const HostQuizSession = () => {
       {timer === 0 && (
         <div className="mt-4 text-center">
           <button
-            className="py-2 px-4 text-sm font-medium text-white rounded-lg bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300"
+            className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300"
             onClick={handleTimeoutNextQuestion}
           >
-            Next
+            {currentQuestionIndex==questions.length-1?"Finish":"Next"}
           </button>
         </div>
       )}

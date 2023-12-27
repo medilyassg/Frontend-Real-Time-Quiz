@@ -5,19 +5,64 @@ import { FaStar } from 'react-icons/fa';
 import { IoTriangle } from 'react-icons/io5';
 import { FaCircle } from 'react-icons/fa6';
 import { RiRectangleFill } from 'react-icons/ri';
+import echo from '../../../config/echo';
+import { api } from '../../../config/axios';
 
 const ParticipantQuizSession = () => {
+  const initialQuestions = [
+    {
+      question: '',
+      correctAnswer: '',
+      answers: ['', '', '', ''],
+    }
+  ];
+
+  const [questions, setQuestions] = useState(initialQuestions);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const roomCode = new URLSearchParams(location.search).get('roomId');
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    echo.channel(`quiz-session-${roomCode}`).listen('QuestionTime', (data) => {
+      if(data.data.time==0){
+        // navigate(`/ParticipantScore?roomId=${roomCode}`)
+      }
+      
+    });
+    const getTime=async()=>{
+      let response=await api.post('/api/v1/get-time',{"pin":roomCode})
+      return response.data
+    }
+    getTime().then((response)=>{
+      setCurrentQuestionIndex(response.data.index)
+    }).catch((e)=>{
+      console.log(e)
+    })
+    const getAllQuizzes=async()=>{
+      let response=await api.post('/api/v1/allquiz',{"pin":roomCode})
+      return response.data
+    }
+    getAllQuizzes().then((response)=>{
+      setQuestions(response)
+    }).catch((e)=>{
+      console.log(e)
+    })
+  },[])
+
 
   const handleAnswerClick = (index) => {
     if (selectedAnswer !== null) {
       return;
     }
-    setCurrentQuestionIndex((prevState)=>prevState+1)
+    // setCurrentQuestionIndex((prevState)=>prevState+1)
     setSelectedAnswer(index);
-    navigate('/ParticipantWaiting')
+    if(questions[currentQuestionIndex].correctAnswer==questions[currentQuestionIndex].answers[index]){
+      console.log("Your score is : "+10)
+    }else{
+      console.log("Your score is : "+0)
+    }
+    // navigate(`/ParticipantWaiting?roomId=${roomCode}`)
   };
 
 
@@ -25,20 +70,9 @@ const ParticipantQuizSession = () => {
   const answerColors = ['bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-red-500'];
   const answerIcons = [<FaStar size={24} />, <IoTriangle size={24} />, <FaCircle size={24} />, <RiRectangleFill size={24} />];
 
-  const questions = [
-    {
-      question: 'What is the capital of France?',
-      answers: ['Berlin1', 'Madrid1', 'Paris1', 'Rome1'],
-    },
-    {
-      question: 'What is the capital of Uruguay?',
-      answers: ['Berlin2', 'Montevideo2', 'Paris2', 'Rome2'],
-    },
-  ];
-
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-md">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-lg">
         {/* Question outside the box */}
         <div className="grid grid-cols-2 gap-4">
           {answerIcons.map((icon, index) => (
