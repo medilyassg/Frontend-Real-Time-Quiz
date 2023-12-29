@@ -54,7 +54,6 @@ const PlayerWaitingRoom = () => {
   }, [gameStarted, countdown]);
   useEffect(() => {
     echo.channel('quiz-started').listen('QuizStarted', (data) => {
-      console.log('Received data:', data);
       setGameStarted(true)
       
     });
@@ -65,7 +64,6 @@ const PlayerWaitingRoom = () => {
     
 
     echo.channel('player-join-room').listen('PlayerJoined', (data) => {
-      console.log('Received data:', data);
       setPlayers((prevPlayers) => [...prevPlayers, { id: 1, nickname: data.nickname }]);
 
     });

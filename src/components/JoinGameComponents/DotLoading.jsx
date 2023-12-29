@@ -28,7 +28,7 @@ const DotLoading = () => {
   `;
 
   return (
-    <div className="min-h-screen flex items-center justify-center ">
+    <div className="min-h-screen flex items-center justify-center fixed top-0 right-0 left-0 bottom-0 bg-white z-50">
       <style>{animationStyle}</style>
       <div className="flex">
         <div className="dot bg-blue-500"></div>

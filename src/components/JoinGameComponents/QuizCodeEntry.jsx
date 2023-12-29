@@ -32,8 +32,8 @@ const QuizCodeEntry = () => {
             showNotification('The PIN code was not recognized. Check that it is correct and try again.', 'danger');
           }
         })
-        .catch((error) => {
-          console.error('Error checking if the room exists:', error);
+        .catch((e) => {
+          console.log('Error message:', e.response.data);
           showNotification('An error occurred while checking the room. Please try again.', 'danger');
         })
         .finally(() => {
@@ -41,7 +41,6 @@ const QuizCodeEntry = () => {
         });
     }
 
-    console.log(`Validating code: ${code}`);
   };
 
   const showNotification = (message, type) => {

@@ -55,7 +55,6 @@ const HostWaitingRoom = () => {
     
 
     echo.channel('player-join-room').listen('PlayerJoined', (data) => {
-      console.log('Received data:', data);
       setPlayers((prevPlayers) => [...prevPlayers, { id: 1, nickname: data.nickname }]);
 
     });

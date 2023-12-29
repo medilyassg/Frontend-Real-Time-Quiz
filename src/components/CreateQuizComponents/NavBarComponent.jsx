@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { update_nom_quiz } from "../../store/createQuizReducer"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../ParticipantSession/loader.scss'
+import DotLoading from '../JoinGameComponents/DotLoading'
 import {api} from '../../../config/axios'
 import { reset_quiz_data } from "../../store/createQuizReducer"; 
 
@@ -50,7 +50,7 @@ const NavBarComponent=()=>{
                     "title":createQuiz.nomQuiz,
                     "description":createQuiz.nomQuiz,
                     "startTime":"2023-12-22 15:30:45",
-                    "endTime":"2023-12-22 15:30:50",
+                    "endTime":"2023-12-22 15:31:00",
                     "hostId":response.data.data.id
                 }).then((responsequiz)=>{
                     let numberValueTrue=-1;
@@ -106,14 +106,12 @@ const NavBarComponent=()=>{
             api.post('/api/v1/create-room')
             .then((response) => {
                 navigate(`/hostwaiting?roomId=${response.data.pin}&quizId=${quizId}`)
-              console.log(response.data);
             })
-            .catch((error) => {
-              console.error('Error creating the room:', error);
+            .catch((e) => {
+                console.log('Error message:', e.response.data);
             });
     dispatch(reset_quiz_data())
         }catch(error){
-            console.log(error)
             toast.error("Error");
         }finally{
             setLoading(false)
@@ -126,9 +124,7 @@ const NavBarComponent=()=>{
 
     if(loading){
         return <>
-            <div className="flex items-center justify-center min-h-screen ">
-                <div className="loader"></div>
-            </div>
+            <DotLoading/>
         </>
     }
     return <>
@@ -161,7 +157,7 @@ const NavBarComponent=()=>{
 
                 <div className="sm:hidden" id="mobile-menu">
                     <div className="px-2 pt-2 pb-3 space-y-1">
-                    <input className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Nom du Quiz" />
+                    <input value={nomQuiz} onChange={(e)=>{setNomQuiz(e.target.value);dispatch(update_nom_quiz(e.target.value))}} className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Nom du Quiz" />
                     </div>
         </div>
     </>

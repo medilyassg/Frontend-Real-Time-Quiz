@@ -9,6 +9,27 @@ import echo from '../../../config/echo';
 import { api } from '../../../config/axios';
 
 const ParticipantQuizSession = () => {
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+  function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
   const initialQuestions = [
     {
       question: '',
@@ -20,15 +41,26 @@ const ParticipantQuizSession = () => {
   const [questions, setQuestions] = useState(initialQuestions);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [verifyResultat,setVerifyResultat]=useState(false)
   const roomCode = new URLSearchParams(location.search).get('roomId');
   const navigate = useNavigate();
 
   useEffect(()=>{
     echo.channel(`quiz-session-${roomCode}`).listen('QuestionTime', (data) => {
-      if(data.data.time==0){
-        // navigate(`/ParticipantScore?roomId=${roomCode}`)
+      const getFirstTime=async()=>{
+        let response=await api.post('/api/v1/get-first-time',{"pin":roomCode})
+        return response.data
       }
-      
+      getFirstTime().then((response)=>{
+        if(data.data.time==0 && data.data.score.length>0 || response.data.state==1){
+          if(selectedAnswer==null){
+            setCookie("Resultat","0",1)
+          }
+          navigate(`/ParticipantScore?roomId=${roomCode}`)
+        }
+      }).catch((e)=>{
+        console.log('Error message:', e.response.data);
+      })
     });
     const getTime=async()=>{
       let response=await api.post('/api/v1/get-time',{"pin":roomCode})
@@ -37,17 +69,20 @@ const ParticipantQuizSession = () => {
     getTime().then((response)=>{
       setCurrentQuestionIndex(response.data.index)
     }).catch((e)=>{
-      console.log(e)
+      console.log('Error message:', e.response.data);
     })
-    const getAllQuizzes=async()=>{
-      let response=await api.post('/api/v1/allquiz',{"pin":roomCode})
-      return response.data
+    const getAllQuizzes = async () => {
+      let response = await api.post('/api/v1/allquiz', { "pin": roomCode });
+      return response.data;
     }
-    getAllQuizzes().then((response)=>{
-      setQuestions(response)
-    }).catch((e)=>{
-      console.log(e)
-    })
+    
+    getAllQuizzes().then((response) => {
+      if (Array.isArray(response) && response.length > 0) {
+        setQuestions(response);
+      } 
+    }).catch((e) => {
+      console.log('Error message:', e.response.data);
+    });
   },[])
 
 
@@ -55,14 +90,18 @@ const ParticipantQuizSession = () => {
     if (selectedAnswer !== null) {
       return;
     }
-    // setCurrentQuestionIndex((prevState)=>prevState+1)
     setSelectedAnswer(index);
-    if(questions[currentQuestionIndex].correctAnswer==questions[currentQuestionIndex].answers[index]){
-      console.log("Your score is : "+10)
-    }else{
-      console.log("Your score is : "+0)
+    const changeScore=async()=>{
+      let responseData=await api.post('/api/v1/change-score',{"pin":roomCode,"nickname":getCookie("nickname"),"score":questions[currentQuestionIndex].correctAnswer==questions[currentQuestionIndex].answers[index]?10:0})
+      return responseData.data
     }
-    // navigate(`/ParticipantWaiting?roomId=${roomCode}`)
+    changeScore().then((response)=>{
+      if(response.data){
+        navigate(`/ParticipantWaiting?roomId=${roomCode}`)
+      }
+    }).catch((e)=>{
+      console.log('Error message:', e.response.data);
+    })
   };
 
 
@@ -86,7 +125,7 @@ const ParticipantQuizSession = () => {
               <div className={`rounded-full h-12 w-12 flex items-center justify-center mr-4 ${selectedAnswer === index ? 'bg-gray-200' : ''}`}>
                 {icon}
               </div>
-              <div>{questions[currentQuestionIndex].answers[index]}</div>
+              <div>{questions[currentQuestionIndex]?.answers?.[index] || ''}</div>
             </div>
           ))}
         </div>

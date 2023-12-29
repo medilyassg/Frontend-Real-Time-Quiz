@@ -41,57 +41,57 @@ const OptionQuizComponent=()=>{
                     <div className='cache-meny' onClick={()=>{dispatch(showing(false));dispatch(display(false))}}>
                     <HiMiniXMark />
                     </div>
-                        <div className="mx-auto max-w-xs">
-                        <label htmlFor="example6" className="mb-1 block text-sm font-medium text-white flex py-4"><TbMessage2Question /><span className='px-2 text-xl'>Type de question</span></label>
+                        <div className="max-w-xs mx-auto">
+                        <label htmlFor="example6" className="flex block py-4 mb-1 text-sm font-medium text-white"><TbMessage2Question /><span className='px-2 text-xl'>Type de question</span></label>
                         
                         <div className="relative">
                             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2.5">
                             <MdOutlineQuiz />
                             </div>
-                            <select value={typequestionquiz} onChange={(e)=>{setQuestiontypeQuiz(e.target.value);dispatch(update_type(e.target.value))}} id="example6" className="block w-full rounded-md border-gray-300 pl-10 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 py-2">
+                            <select value={typequestionquiz} onChange={(e)=>{setQuestiontypeQuiz(e.target.value);dispatch(update_type(e.target.value))}} id="example6" className="block w-full py-2 pl-10 border-gray-300 rounded-md shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50">
                             <option value="">sélectionné</option>
                             <option value="quiz">Quiz</option>
                             </select>
                         </div>
                         </div>
 
-                        <div className="mx-auto max-w-xs">
-                        <label htmlFor="example6" className="mb-1 block text-sm font-medium text-white flex py-4"><MdAccessTime /><span className='px-2 text-xl'>Temps imparti</span></label>
+                        <div className="max-w-xs mx-auto">
+                        <label htmlFor="example6" className="flex block py-4 mb-1 text-sm font-medium text-white"><MdAccessTime /><span className='px-2 text-xl'>Temps imparti</span></label>
                         <div className="relative">
-                            <select value={tempsquiz} onChange={(e)=>{setTempsquiz(e.target.value);dispatch(update_temp(e.target.value))}} id="example6" className="block w-full rounded-md border-gray-300 pl-10 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 py-2">
+                            <select value={tempsquiz} onChange={(e)=>{setTempsquiz(e.target.value);dispatch(update_temp(e.target.value))}} id="example6" className="block w-full py-2 pl-10 border-gray-300 rounded-md shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50">
                             <option value="">sélectionné</option>
-                            <option value="5s">5 secondes</option>
+                            <option value="15s">15 secondes</option>
                             </select>
                         </div>
                         </div>
 
-                        <div className="mx-auto max-w-xs">
-                        <label htmlFor="example6" className="mb-1 block text-sm font-medium text-white flex py-4"><FaRegStar /><span className='px-2 text-xl'>Points</span></label>
+                        <div className="max-w-xs mx-auto">
+                        <label htmlFor="example6" className="flex block py-4 mb-1 text-sm font-medium text-white"><FaRegStar /><span className='px-2 text-xl'>Points</span></label>
                         <div className="relative">
-                            <select value={pointquiz} onChange={(e)=>{setPointquiz(e.target.value);dispatch(update_point(e.target.value))}} id="example6" className="block w-full rounded-md border-gray-300 pl-10 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 py-2">
+                            <select value={pointquiz} onChange={(e)=>{setPointquiz(e.target.value);dispatch(update_point(e.target.value))}} id="example6" className="block w-full py-2 pl-10 border-gray-300 rounded-md shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50">
                             <option value="">sélectionné</option>
                             <option value="standard">Standard</option>
                             </select>
                         </div>
                         </div>
 
-                        <div className="mx-auto max-w-xs">
-                        <label htmlFor="example6" className="mb-1 block text-sm font-medium text-white flex py-4"><RiApps2Line /><span className='px-2 text-xl'>Limite de réponse</span></label>
+                        <div className="max-w-xs mx-auto">
+                        <label htmlFor="example6" className="flex block py-4 mb-1 text-sm font-medium text-white"><RiApps2Line /><span className='px-2 text-xl'>Limite de réponse</span></label>
                         <div className="relative">
-                            <select value={limitquestion} onChange={(e)=>{setLimitquestion(e.target.value);dispatch(update_limitdereponse(e.target.value))}} id="example6" className="block w-full rounded-md border-gray-300 pl-10 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 py-2 mb-8">
+                            <select value={limitquestion} onChange={(e)=>{setLimitquestion(e.target.value);dispatch(update_limitdereponse(e.target.value))}} id="example6" className="block w-full py-2 pl-10 mb-8 border-gray-300 rounded-md shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50">
                             <option value="">sélectionné</option>
                             <option value="unique">Sélection unique</option>
                             </select>
                         </div>
                         </div>
 
-                        <div className="flex justify-center items-center">
+                        <div className="flex items-center justify-center">
                             <button onClick={()=>removeElement(createQuizData.currentIndex)} className="rounded-l border border-red-500 bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-red-700 hover:bg-red-700 focus:ring focus:ring-red-200 disabled:cursor-not-allowed disabled:border-red-300 disabled:bg-red-300">
                                 Supprimer
                             </button>
                             <button onClick={()=>dispatch(add_ansewr({question:"",type:"",temp:"",point:"",limitdereponse:"",response:[
                             {reponseOne:"",correct:false},{reponseTwo:"",correct:false},{reponseThree:"",correct:false},{reponseFour:"",correct:false}
-                            ]}))} className="bg-transparent hover:bg-gray-500 text-white font-semibold hover:text-white py-2 px-4 border border-white hover:border-transparent rounded-r">
+                            ]}))} className="px-4 py-2 font-semibold text-white bg-transparent border border-white rounded-r hover:bg-gray-500 hover:text-white hover:border-transparent">
                                 Dupliquer
                             </button>
                         </div>

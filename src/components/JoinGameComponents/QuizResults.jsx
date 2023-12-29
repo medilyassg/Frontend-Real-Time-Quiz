@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IoIosCheckmark, IoIosClose, IoIosDownload } from 'react-icons/io';
 import * as XLSX from 'xlsx';
-
+import echo from '../../../config/echo';
+import { api } from '../../../config/axios';
 const QuizResults = ({ participants }) => {
+  const roomCode = new URLSearchParams(location.search).get('roomId');
+  useEffect(()=>{
+    echo.leave(`quiz-session-${roomCode}`)
+    echo.leave(`next-question-${roomCode}`)
+    const deleteCache=async()=>{
+      let response=await api.delete("/api/v1/delete-cache")
+    }
+    deleteCache().then(()=>{
+      document.cookie = "nickname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "Resultat=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }).catch((e)=>{
+      console.log("Error : ",e)
+    })
+  },[])
   const exportToExcel = () => {
     // Create a custom worksheet for export
     const worksheet = XLSX.utils.json_to_sheet(
