@@ -10,6 +10,8 @@ import {
 import { useState } from "react";
 import { api } from "../../config/axios";
 import { NavLink, useNavigate } from 'react-router-dom';
+import { ReactNotifications, Store } from "react-notifications-component";
+import 'react-notifications-component/dist/theme.css';
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -29,24 +31,46 @@ const RegisterPage = () => {
   const isPasswordInvalid = password !== "" && !validatePassword(password);
   const isConfirmPasswordInvalid =
     confirmPassword !== "" && confirmPassword !== password;
-  async function handleRegister() {
-    try {
-      const registerResponse = await api.post(
-        "/api/v1/registre",
-        {
-          name: name,
-          email: email,
-          password: password,
-        },
-      );
-
-      console.log('Registration Successful!');
-      navigate('/login');
-    } catch (error) {
-      navigate('/register')
+    async function handleRegister() {
+      try {
+        const registerResponse = await api.post(
+          "/api/v1/registre",
+          {
+            name: name,
+            email: email,
+            password: password,
+          },
+        );
+    
+        if (registerResponse.status >= 200 && registerResponse.status < 300) {
+          showNotification('Registration Successful!', 'success');
+          navigate('/login');
+        } else {
+          showNotification('An error occurred during registration. Please try again.', 'danger');
+          navigate('/register');
+        }
+      } catch (error) {
+          showNotification('An error occurred during registration. Please try again.', 'danger');
+        navigate('/register');
+      }
     }
-  }
-  return (
+    const showNotification = (message, type) => {
+      Store.addNotification({
+        title: "Oops!",
+        message: message,
+        type: type,
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true
+        }
+      });
+    };
+  return ( <>
+  <ReactNotifications/>
     <div className="w-screen flex flex-col items-center justify-center">
       <Card className="lg:w-1/3 my-2 md:my-7">
         <CardHeader className="flex  justify-center">
@@ -110,7 +134,7 @@ const RegisterPage = () => {
         </CardBody>
           </form>
       </Card>
-    </div>
+    </div></>
   );
 };
 export default RegisterPage;
