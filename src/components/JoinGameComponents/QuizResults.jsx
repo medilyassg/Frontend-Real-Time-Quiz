@@ -15,7 +15,7 @@ const QuizResults = ({ participants }) => {
       document.cookie = "nickname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie = "Resultat=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }).catch((e)=>{
-      console.log("Error : ",e)
+      console.log("Error : ",e.response.data.message)
     })
   },[])
   const exportToExcel = () => {

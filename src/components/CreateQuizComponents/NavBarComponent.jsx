@@ -108,7 +108,7 @@ const NavBarComponent=()=>{
                 navigate(`/hostwaiting?roomId=${response.data.pin}&quizId=${quizId}`)
             })
             .catch((e) => {
-                console.log('Error message:', e.response.data);
+                console.log('Error message:', e.response.data.message);
             });
     dispatch(reset_quiz_data())
         }catch(error){

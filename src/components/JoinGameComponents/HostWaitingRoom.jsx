@@ -46,7 +46,7 @@ const HostWaitingRoom = () => {
         console.error('Error starting quiz:', response.status);
       }
     } catch (error) {
-      console.error('Error starting quiz:', error);
+      console.error('Error starting quiz:', error.response.data.message);
     }
   }
   
@@ -69,7 +69,7 @@ const HostWaitingRoom = () => {
           console.error('Error fetching players:', response.status);
         }
       } catch (error) {
-        console.error('Error fetching players:', error);
+        console.error('Error fetching players:', error.response.data.message);
       }
     };
 

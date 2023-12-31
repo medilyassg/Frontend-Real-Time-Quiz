@@ -78,7 +78,7 @@ const PlayerWaitingRoom = () => {
           console.error('Error fetching players:', response.status);
         }
       } catch (error) {
-        console.error('Error fetching players:', error);
+        console.error('Error fetching players:', error.response.data.message);
       }
     };
 

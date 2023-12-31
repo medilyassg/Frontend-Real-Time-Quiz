@@ -33,7 +33,7 @@ const QuizCodeEntry = () => {
           }
         })
         .catch((e) => {
-          console.log('Error message:', e.response.data);
+          console.log('Error message:', e.response.data.message);
           showNotification('An error occurred while checking the room. Please try again.', 'danger');
         })
         .finally(() => {

@@ -76,28 +76,28 @@ const HostQuizSession = () => {
           setTimer(timeResponse.data.time)
         })
         .catch((e) => {
-          console.log('Error message:', e.response.data);
+          console.log('Error message:', e.response.data.message);
         })
         .finally(() => {
           setIsloading(false);
         });
     })
     .catch((e) => {
-      console.log('Error message:', e.response.data);
+      console.log('Error message:', e.response.data.message);
       setIsloading(false);
     });
   };
 
   useEffect(()=>{
-    const getTime=async()=>{
-      let response=await api.post('/api/v1/get-time',{"pin":roomCode})
+    const getData=async()=>{
+      let response=await api.post('/api/v1/get-data-quiz-session',{"pin":roomCode})
       return response.data
     }
-    getTime().then((response)=>{
+    getData().then((response)=>{
       setCurrentQuestionIndex(response.data.index)
       setTimer(response.data.time)
     }).catch((e)=>{
-      console.log('Error message:', e.response.data);
+      console.log('Error message:', e.response.data.message);
     })
     const getAllQuizzes=async()=>{
       let response=await api.post('/api/v1/allquiz',{"pin":roomCode})
@@ -106,7 +106,7 @@ const HostQuizSession = () => {
     getAllQuizzes().then((response)=>{
       setQuestions(response)
     }).catch((e)=>{
-      console.log('Error message:', e.response.data);
+      console.log('Error message:', e.response.data.message);
     })
   },[])
 
@@ -124,7 +124,7 @@ const HostQuizSession = () => {
         return response.data
       }
       changeFirstTime().catch((e)=>{
-        console.log('Error message:', e.response.data);
+        console.log('Error message:', e.response.data.message);
       })
     }
     const interval = setInterval(() => {
@@ -135,7 +135,7 @@ const HostQuizSession = () => {
       return response.data
     }
     handleChangeTime().catch((e)=>{
-      console.log('Error message:', e.response.data);
+      console.log('Error message:', e.response.data.message);
     })
     return () => {
       clearInterval(interval);

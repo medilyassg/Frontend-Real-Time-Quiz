@@ -49,7 +49,7 @@ export default function LoginFormPage() {
         navigate("/dashboard");
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Login failed:", error.response.data.message);
       navigate("/login")
     }
   }

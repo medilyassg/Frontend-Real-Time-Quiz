@@ -1,4 +1,3 @@
-// ParticipantQuizSession.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
@@ -41,7 +40,6 @@ const ParticipantQuizSession = () => {
   const [questions, setQuestions] = useState(initialQuestions);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [verifyResultat,setVerifyResultat]=useState(false)
   const roomCode = new URLSearchParams(location.search).get('roomId');
   const navigate = useNavigate();
 
@@ -59,20 +57,20 @@ const ParticipantQuizSession = () => {
           navigate(`/ParticipantScore?roomId=${roomCode}`)
         }
       }).catch((e)=>{
-        console.log('Error message:', e.response.data);
+        console.log('Error message:', e.response.data.message);
       })
     });
-    const getTime=async()=>{
-      let response=await api.post('/api/v1/get-time',{"pin":roomCode})
+    const getData=async()=>{
+      let response=await api.post('/api/v1/get-data-quiz-session',{"pin":roomCode})
       return response.data
     }
-    getTime().then((response)=>{
+    getData().then((response)=>{
       setCurrentQuestionIndex(response.data.index)
     }).catch((e)=>{
-      console.log('Error message:', e.response.data);
+      console.log('Error message:', e.response.data.message);
     })
     const getAllQuizzes = async () => {
-      let response = await api.post('/api/v1/allquiz', { "pin": roomCode });
+      let response = await api.post('/api/v1/allquiz',{"pin":roomCode});
       return response.data;
     }
     
@@ -81,7 +79,7 @@ const ParticipantQuizSession = () => {
         setQuestions(response);
       } 
     }).catch((e) => {
-      console.log('Error message:', e.response.data);
+      console.log('Error message:', e.response.data.message);
     });
   },[])
 
@@ -100,7 +98,7 @@ const ParticipantQuizSession = () => {
         navigate(`/ParticipantWaiting?roomId=${roomCode}`)
       }
     }).catch((e)=>{
-      console.log('Error message:', e.response.data);
+      console.log('Error message:', e.response.data.message);
     })
   };
 

@@ -33,7 +33,7 @@ const ParticipantScore = () => {
           document.cookie = "Resultat=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         }
       }).catch((e)=>{
-        console.log('Error message:', e.response.data);
+        console.log('Error message:', e.response.data.message);
       })
     }
     echo.channel(`next-question-${roomCode}`).listen('NextQuestion', (data) => {
@@ -45,7 +45,7 @@ const ParticipantScore = () => {
       }
     });
     const getData=async()=>{
-      let response=await api.post('/api/v1/get-time',{"pin":roomCode})
+      let response=await api.post('/api/v1/get-data-quiz-session',{"pin":roomCode})
       return response.data
     }
     getData().then((response)=>{
@@ -53,7 +53,7 @@ const ParticipantScore = () => {
         return response.data.index
       })
     }).catch((e)=>{
-      console.log('Error message:', e.response.data);
+      console.log('Error message:', e.response.data.message);
     })
   },[])
 
@@ -63,32 +63,12 @@ const ParticipantScore = () => {
       return response.data
     }
     getScoreOfPlayer().then((response)=>{
-      console.log(response.score)
-      let score=null;
-      if(currentIndex==response.score.length-1){
-        score=response.score[response.score.length-1]
-      }else{
-        if(response.score.length==1 || response.score.length==2){
-          score=response.score[0];
-        }
-        if(response.score.length%2!=0 || response.score.length%2==0){
-          if(response.score[response.score.length-2]==10 && response.score[response.score.length-1]==0){
-            score=10
-          }
-          if(response.score[response.score.length-2]==0 && response.score[response.score.length-1]==10){
-            score=10
-          }
-          if(response.score[response.score.length-2]==0 && response.score[response.score.length-1]==0){
-            score=0
-          }
-        }
-      }
+      console.log(response)
       setChangeScore(()=>{
-        return score
+        return response.score[currentIndex]
       })
-      
     }).catch((e)=>{
-      console.log('Error message:', e.response.data);
+      console.log('Error message:', e.response.data.message);
     })
   },[currentIndex])
 
