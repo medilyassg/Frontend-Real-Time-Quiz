@@ -86,9 +86,9 @@ export default function LoginFormPage() {
   return (
     <>
       <ReactNotifications />
-      <div className="w-screen flex flex-col items-center">
+      <div className="flex flex-col items-center w-screen">
         <Card className="lg:w-1/3 my-7">
-          <CardHeader className="flex  justify-center">
+          <CardHeader className="flex justify-center">
             <div className="flex flex-col">
               <p className="text-2xl font-bold">QuizMinds</p>
             </div>
