@@ -8,13 +8,16 @@ import {
   Input,
   Button,
 } from "@nextui-org/react";
+import { ReactNotifications } from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+import { Store } from 'react-notifications-component';
 import { useState, useMemo } from "react";
 import { api } from "../../config/axios";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from "react-router-dom";
 export default function LoginFormPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const validateEmail = (email) =>
     email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
@@ -42,27 +45,55 @@ export default function LoginFormPage() {
         email: email,
         password: password,
       });
-  
+
       const user = await api.get("/api/v1/user");
-  
+
       if (user.status >= 200 && user.status < 300) {
         navigate("/dashboard");
       }
     } catch (error) {
-      console.error("Login failed:", error.response.data.message);
-      navigate("/login")
+      if (error.response && error.response.status === 422) {
+        showNotification(
+          "Incorrect email or password. Please try again.",
+          "danger"
+        );
+      } else {
+        showNotification(
+          "An error occurred during login. Please try again.",
+          "danger"
+        );
+      }
+
+      navigate("/login");
     }
   }
+  const showNotification = (message, type) => {
+    Store.addNotification({
+      title: "Oops!",
+      message: message,
+      type: type,
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      dismiss: {
+        duration: 5000,
+        onScreen: true
+      }
+    });
+  };
 
   return (
-    <div className="w-screen flex flex-col items-center">
-      <Card className="lg:w-1/3 my-7">
-        <CardHeader className="flex  justify-center">
-          <div className="flex flex-col">
-            <p className="text-2xl font-bold">QuizMinds</p>
-          </div>
-        </CardHeader>
-        <Divider />
+    <>
+      <ReactNotifications />
+      <div className="w-screen flex flex-col items-center">
+        <Card className="lg:w-1/3 my-7">
+          <CardHeader className="flex  justify-center">
+            <div className="flex flex-col">
+              <p className="text-2xl font-bold">QuizMinds</p>
+            </div>
+          </CardHeader>
+          <Divider />
           <CardBody className="flex flex-col gap-5 p-6">
             <Input
               isRequired
@@ -85,20 +116,21 @@ export default function LoginFormPage() {
               onValueChange={setPassword}
               type="password"
               label="Password"
-              size="sm" 
+              size="sm"
             />
             <Button color="primary" onClick={handleLogin}>
               Login
             </Button>
           </CardBody>
-        <Divider />
-        <CardFooter className="flex justify-center">
-          Don't have an account
-          <NavLink to="/register" className="ml-1 text-blue-600">
-            register now !
-          </NavLink>
-        </CardFooter>
-      </Card>
-    </div>
+          <Divider />
+          <CardFooter className="flex justify-center">
+            Don't have an account
+            <NavLink to="/register" className="ml-1 text-blue-600">
+              register now !
+            </NavLink>
+          </CardFooter>
+        </Card>
+      </div>
+    </>
   );
 }
