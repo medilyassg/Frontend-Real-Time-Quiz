@@ -10,20 +10,21 @@ import 'react-toastify/dist/ReactToastify.css';
 const DiapositiveComponent=()=>{
     const dispatch=useDispatch()
     const createQuizData=useSelector(state=>state.createQuizData)
-    function verificationFiled(){
-        for (const item of createQuizData.ansewrs) {
-            if (
-                item.question === "" ||
-                item.type === "" ||
-                item.temp === "" ||
-                item.point === "" ||
-                item.limitdereponse === "" ||
-                item.response.some((responseItem) => responseItem.reponseOne === "" || responseItem.reponseTwo === "" || responseItem.reponseThree === "" || responseItem.reponseFour === "") ||
-                item.response.every((responseItem) => responseItem.correct === false)
-            ) {
-                return false
-            }
+    function verificationField(index) {
+        const item = createQuizData.ansewrs[index];
+    
+        if (
+            item.question === "" ||
+            item.type === "" ||
+            item.temp === "" ||
+            item.point === "" ||
+            item.limitdereponse === "" ||
+            item.response.some((responseItem) => responseItem.reponseOne === "" || responseItem.reponseTwo === "" || responseItem.reponseThree === "" || responseItem.reponseFour === "") ||
+            item.response.every((responseItem) => responseItem.correct === false)
+        ) {
+            return false;
         }
+    
         return true;
     }
     function handleElementClickCurrentIndex(index){
@@ -42,7 +43,7 @@ const DiapositiveComponent=()=>{
                 return<>
                 <div key={index} className="diapositive-item" onClick={()=>handleElementClickCurrentIndex(index)} style={{ "backgroundColor":createQuizData.currentIndex==index?"#EAF4FC":"" }}>
                     <div className="btn-diapositive">
-                        <div className="warning" style={{ "display":verificationFiled()?"none":"block" }}><RiErrorWarningFill /></div>
+                        <div className="warning" style={{ "display":verificationField(index)?"none":"block","color":createQuizData.currentIndex==index?"blue":"#FCC822" }}><RiErrorWarningFill /></div>
                         <div className="duplicate" onClick={()=>dispatch(add_ansewr({question:"",type:"",temp:"",point:"",limitdereponse:"",response:[
                         {reponseOne:"",correct:false},{reponseTwo:"",correct:false},{reponseThree:"",correct:false},{reponseFour:"",correct:false}
                         ]}))}><HiDuplicate /></div>
