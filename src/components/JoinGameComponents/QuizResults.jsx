@@ -28,24 +28,40 @@ const QuizResults = ({ participants }) => {
   }, [roomCode]);
 
   const exportToExcel = () => {
+    if (!participants || participants.length === 0) {
+      console.error("No participants or results available.");
+      return;
+    }
+  
+    // Get all unique question numbers from the participants
+    const uniqueQuestions = [...new Set(participants.flatMap(participant => Object.keys(participant.results)))];
+  
     // Create a custom worksheet for export
     const worksheet = XLSX.utils.json_to_sheet(
-      participants.map((participant, index) => ({
-        id: index + 1,
-        name: participant.name,
-        Q1: participant.results[0] ? 'Correct' : 'Incorrect',
-        Q2: participant.results[1] ? 'Correct' : 'Incorrect',
-        Q3: participant.results[2] ? 'Correct' : 'Incorrect',
-        Q4: participant.results[3] ? 'Correct' : 'Incorrect',
-      }))
+      participants.map((participant, index) => {
+        const rowData = {
+          id: index + 1,
+          name: participant.name,
+        };
+  
+        // Add columns dynamically based on available questions
+        uniqueQuestions.forEach(question => {
+          rowData[`Q${question}`] = participant.results[question] ? 'Correct' : 'Incorrect';
+        });
+  
+        return rowData;
+      })
     );
-
-    XLSX.utils.sheet_add_aoa(worksheet, [['ID', 'Name', 'Q1', 'Q2', 'Q3', 'Q4']], { origin: 'A1' });
-
+  
+    // Add headers
+    const headers = ['ID', 'Name', ...uniqueQuestions.map(question => `Q${question}`)];
+    XLSX.utils.sheet_add_aoa(worksheet, [headers], { origin: 'A1' });
+  
+    // Create workbook and download
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'QuizResults');
     XLSX.writeFile(workbook, 'quiz_results.xlsx');
-  };
+  };  
 
   // Check if participants is empty
   if (!participants || participants.length === 0) {
