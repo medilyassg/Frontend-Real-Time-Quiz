@@ -3,21 +3,30 @@ import { IoIosCheckmark, IoIosClose, IoIosDownload } from 'react-icons/io';
 import * as XLSX from 'xlsx';
 import echo from '../../../config/echo';
 import { api } from '../../../config/axios';
+
 const QuizResults = ({ participants }) => {
   const roomCode = new URLSearchParams(location.search).get('roomId');
-  useEffect(()=>{
-    echo.leave(`quiz-session-${roomCode}`)
-    echo.leave(`next-question-${roomCode}`)
-    const deleteCache=async()=>{
-      let response=await api.delete("/api/v1/delete-cache")
-    }
-    deleteCache().then(()=>{
+
+  useEffect(() => {
+    echo.leave(`quiz-session-${roomCode}`);
+    echo.leave(`next-question-${roomCode}`);
+
+    const deleteCache = async () => {
+      try {
+        let response = await api.delete("/api/v1/delete-cache");
+      } catch (e) {
+        console.log("Error: ", e.response ? e.response.data.message : e.message);
+      }
+    };
+
+    deleteCache().then(() => {
       document.cookie = "nickname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie = "Resultat=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    }).catch((e)=>{
-      console.log("Error : ",e.response.data.message)
-    })
-  },[])
+    }).catch((e) => {
+      console.log("Error : ", e.response ? e.response.data.message : e.message);
+    });
+  }, [roomCode]);
+
   const exportToExcel = () => {
     // Create a custom worksheet for export
     const worksheet = XLSX.utils.json_to_sheet(
@@ -37,6 +46,20 @@ const QuizResults = ({ participants }) => {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'QuizResults');
     XLSX.writeFile(workbook, 'quiz_results.xlsx');
   };
+
+  // Check if participants is empty
+  if (!participants || participants.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b bg-gradient-to-tr from-blue-400 to-cyan-200 relative">
+        <div className="bg-white p-8 border border-blue-900 rounded-md shadow-md w-full max-w-xxl mx-3 relative">
+          <div className="mb-4">
+            <h2 className="text-1xl font-bold text-blue-500">Quiz Results</h2>
+          </div>
+          <p>No participants or results available.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b bg-gradient-to-tr from-blue-400 to-cyan-200 relative">
@@ -60,7 +83,7 @@ const QuizResults = ({ participants }) => {
               <tr className="bg-gray-100">
                 <th className="border p-2">#</th>
                 <th className="border p-2">Name</th>
-                {participants[0].results.map((result, index) => (
+                {participants[0]?.results?.map((result, index) => (
                   <th key={index} className="border p-2">
                     Q{index + 1}
                   </th>

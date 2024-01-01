@@ -1,69 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../../../config/axios';
 import QuizResults from './QuizResults';
 
 const ScoreTable = () => {
   const roomCode = new URLSearchParams(location.search).get('roomId');
-  useEffect(()=>{
-    const getData=async()=>{
-      let response =await api.post('/api/v1/get-data-quiz-session',{"pin":roomCode})
-      return response.data
-    }
-    getData().then((response)=>{
-      console.log(response.data.score)
-    }).catch((e)=>{
-      console.log('Error message:', e.response.data.message);
-    })
-  },[])
-  const participants = [
-    {
-      name: 'John Doe',
-      email: 'john@example.com',
-      results: [true, false, true],
-    },
-    {
-      name: 'Jane Doe',
-      email: 'jane@example.com',
-      results: [true, true, false],
-    },
-    {
-      name: 'Jane Doe',
-      email: 'jane@example.com',
-      results: [true, true, false],
-    },
-    {
-      name: 'Jane Doe',
-      email: 'jane@example.com',
-      results: [true, true, false],
-    },
-    {
-      name: 'Jane Doe',
-      email: 'jane@example.com',
-      results: [true, true, false],
-    },
-    {
-      name: 'Jane Doe',
-      email: 'jane@example.com',
-      results: [true, true, false],
-    },
-    {
-      name: 'Jane Doe',
-      email: 'jane@example.com',
-      results: [true, true, false],
-    },
-    {
-      name: 'Jane Doe',
-      email: 'jane@example.com',
-      results: [true, true, false],
-    },
-   
-   
-  ];
+  const [participants, setParticipants] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await api.post('/api/v1/get-data-quiz-session', { "pin": roomCode });
+        setParticipants(response.data.score);
+      } catch (error) {
+        console.log('Error message:', error.response ? error.response.data.message : error.message);
+      }
+    };
+
+    getData();
+  }, [roomCode]);
 
   return (
     <div className="App">
-      {/* <QuizResults participants={participants} /> */}
-      <h1>Hello World</h1>
+      <QuizResults participants={participants} />
     </div>
   );
 };
