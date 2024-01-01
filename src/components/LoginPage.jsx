@@ -59,8 +59,8 @@ const LoginPage = () => {
           </NavbarBrand>
         </NavbarContent>
         <NavbarContent justify="end">
-          <NavbarItem>
-            <Button className="hidden sm:flex" as={Link} color="primary" href="#" variant="ghost">
+        <NavbarItem>
+            <Button as={Link} color="primary" to="/creator" variant="ghost">
               Create quiz
             </Button>
           </NavbarItem>
@@ -200,7 +200,7 @@ const LoginPage = () => {
                       </li>
 
                       <li>
-                        <form action="/logout">
+                        <form action="/">
                           <button
                             type="submit"
                             className="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
@@ -236,8 +236,10 @@ const LoginPage = () => {
           </div>
         </div>
         <div className="flex gap-2 lg:mx-72 xl:mx-2/3 md:mx-36 flex-col justify-center items-center">
-          <p>No quizzes yet! create yours right now !</p>
-          <Button color="primary">Create quiz</Button>
+          <p>No quizzes yet! Create yours right now!</p>
+          <Button as={Link} color="primary" to="/creator">
+            Create quiz
+          </Button>
         </div>
       </div>
     </div>
