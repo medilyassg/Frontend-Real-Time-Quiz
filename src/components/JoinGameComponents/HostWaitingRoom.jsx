@@ -29,7 +29,7 @@ const HostWaitingRoom = () => {
         setCountdown((prevCountdown) => prevCountdown - 1);
       }, 1000);
     }else if(countdown==0){
-      navigate(`/HostSession?roomId=${roomId}`)
+      navigate(`/HostSession?roomId=${roomId}`,{ replace: true })
     }
 
     return () => clearInterval(timer);

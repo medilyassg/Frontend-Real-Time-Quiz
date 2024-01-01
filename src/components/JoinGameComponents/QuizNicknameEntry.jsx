@@ -47,7 +47,7 @@ const QuizNicknameEntry = () => {
           // Navigate to the waiting room or another appropriate page
           if(response.data.message){
             setCookie("nickname",nickname,1)
-            navigate(`/waiting?roomId=${roomCode}`);
+            navigate(`/waiting?roomId=${roomCode}`,{ replace: true });
           }
           if(response.data.error){
             setIsLoading(false);

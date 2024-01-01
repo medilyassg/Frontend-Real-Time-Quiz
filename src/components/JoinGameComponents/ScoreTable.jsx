@@ -10,14 +10,22 @@ const ScoreTable = () => {
     const getData = async () => {
       try {
         const response = await api.post('/api/v1/get-data-quiz-session', { "pin": roomCode });
-        setParticipants(response.data.score);
+        return response.data
       } catch (error) {
         console.log('Error message:', error.response ? error.response.data.message : error.message);
       }
     };
 
-    getData();
-  }, [roomCode]);
+    getData().then((response)=>{
+      if(response.data.score){
+        setParticipants(()=>{
+          return response.data.score
+        })
+      }
+      
+    });
+  }, []);
+
 
   return (
     <div className="App">

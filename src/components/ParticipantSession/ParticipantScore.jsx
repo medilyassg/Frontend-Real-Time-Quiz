@@ -38,10 +38,10 @@ const ParticipantScore = () => {
     }
     echo.channel(`next-question-${roomCode}`).listen('NextQuestion', (data) => {
       if(data.state=="finish"){
-        navigate(`/score?roomId=${roomCode}`)
+        navigate(`/score?roomId=${roomCode}`,{ replace: true })
       }
       if(data.state=="next"){
-        navigate(`/ParticipantSession?roomId=${roomCode}`)
+        navigate(`/ParticipantSession?roomId=${roomCode}`,{ replace: true })
       }
     });
     const getData=async()=>{

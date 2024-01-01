@@ -44,7 +44,7 @@ const HostQuizSession = () => {
 
       return response.data; 
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error:", error.response.data.message);
       throw error; 
     }
   };
@@ -52,7 +52,7 @@ const HostQuizSession = () => {
   changeIndex()
     .then((responseData) => {
       if(currentQuestionIndex === questions.length - 1){
-        navigate(`/score?roomId=${roomCode}`)
+        navigate(`/score?roomId=${roomCode}`,{ replace: true })
       }
       setCurrentQuestionIndex(responseData.data.index)
 
@@ -66,7 +66,7 @@ const HostQuizSession = () => {
 
           return timeResponse.data; 
         } catch (timeError) {
-          console.error("Error:", timeError);
+          console.error("Error:", timeError.response.data.message);
           throw timeError; 
         }
       };

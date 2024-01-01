@@ -54,7 +54,7 @@ const ParticipantQuizSession = () => {
           if(selectedAnswer==null){
             setCookie("Resultat","0",1)
           }
-          navigate(`/ParticipantScore?roomId=${roomCode}`)
+          navigate(`/ParticipantScore?roomId=${roomCode}`,{ replace: true })
         }
       }).catch((e)=>{
         console.log('Error message:', e.response.data.message);
@@ -95,7 +95,7 @@ const ParticipantQuizSession = () => {
     }
     changeScore().then((response)=>{
       if(response.data){
-        navigate(`/ParticipantWaiting?roomId=${roomCode}`)
+        navigate(`/ParticipantWaiting?roomId=${roomCode}`,{ replace: true })
       }
     }).catch((e)=>{
       console.log('Error message:', e.response.data.message);

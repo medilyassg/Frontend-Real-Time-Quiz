@@ -10,7 +10,7 @@ const ParticipantWaiting = () => {
   useEffect(()=>{
     document.cookie = "Resultat=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     echo.channel(`quiz-session-${roomCode}`).listen('QuestionTime', (data) => {
-      navigate(`/ParticipantScore?roomId=${roomCode}`)
+      navigate(`/ParticipantScore?roomId=${roomCode}`,{ replace: true })
       
     });
     },[])
