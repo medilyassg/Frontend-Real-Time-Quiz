@@ -89,7 +89,7 @@ const PlayerWaitingRoom = () => {
   }, []);
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen bg-gradient-to-b bg-gradient-to-tr from-blue-400 to-cyan-200">
+    <div className="relative flex items-center justify-center min-h-screen bg-slate-100">
       {gameStarted && countdown >= 0 && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-800 opacity-75">
           <div className="text-6xl font-bold text-white">
@@ -98,17 +98,17 @@ const PlayerWaitingRoom = () => {
         </div>
       )}
 
-      <div className="relative w-full max-w-full p-8 m-3 bg-white border border-blue-900 rounded-md shadow-md">
+      <div className="relative w-4/5 max-w-full p-8 m-3 bg-white rounded-md shadow-md">
         <div className="absolute top-0 right-0 mt-4 mr-4">
           <QRCode value={`http://localhost:3000/code?id=${roomId}`} size={70} />
         </div>
 
         <div className="mb-4">
-          <h2 className="font-bold text-blue-500 text-1xl">Room ID: {roomId}</h2>
+          <h2 className="font-bold text-blue-900 text-1xl">Room ID: {roomId}</h2>
         </div>
 
         <div className="p-6 text-center rounded-md">
-          <h2 className="mb-4 text-2xl font-bold text-blue-500">Get Ready!</h2>
+          <h2 className="mb-4 text-2xl font-bold text-black">Get Ready!</h2>
           <style>{animationStyle}</style>
           <p className="text-2xl">
            

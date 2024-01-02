@@ -6,6 +6,7 @@ import DotLoading from './DotLoading';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { api } from "../../../config/axios";
 import Swal from 'sweetalert2'
+import { Input } from '@nextui-org/react';
 
 const QuizNicknameEntry = () => {
   const [nickname, setNickname] = useState('');
@@ -87,25 +88,19 @@ const QuizNicknameEntry = () => {
   return (
     <>
       {isLoading ? <DotLoading /> :
-        <div className="flex flex-col items-center justify-center w-full min-h-screen bg-gradient-to-b bg-gradient-to-tr from-blue-400 to-cyan-200">
+        <div className="flex flex-col items-center justify-center w-full min-h-screen bg-slate-100">
           <ReactNotifications />
           <div
-            className={`bg-white p-8 rounded-md shadow-md transform transition-transform mt-auto ${
+            className={`bg-white p-8 rounded-md shadow-md transform transition-transform mt-auto w-1/4 ${
               isHovered ? 'scale-110' : 'scale-100'
             } transition-all duration-300`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            <h1 className="mb-6 text-3xl font-bold text-center text-blue-500">QuizzMinds</h1>
-            <div className="mb-4">
-              <input
-                type="text"
-                id="quizNickname"
-                value={nickname}
-                onChange={handleNicknameChange}
-                placeholder="Your Nickname"
-                className="w-full px-3 py-2 mb-4 text-center placeholder-center transition-all duration-300 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-              />
+            <h1 className="mb-6 text-2xl font-bold text-center text-black">QuizzMinds</h1>
+            <div className="mb-6">
+            <Input value={nickname} onChange={handleNicknameChange} type="text" variant="flat" label="Nickname" size='sm' />
+             
             </div>
             <button
               onClick={handleValidation}

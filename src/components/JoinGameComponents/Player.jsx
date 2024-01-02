@@ -22,7 +22,7 @@ const Player = ({ player }) => {
     
   `;
     return (
-        <div key={player.id} className="bg-blue-100 p-4 rounded-md flex items-center border border-blue-900 animate-bounce">
+        <div key={player.id} className="bg-blue-100 p-4 rounded-md flex items-center  animate-bounce">
             <style>{animationStyle}</style>
             <Avatar
                 name={player.nickname}
