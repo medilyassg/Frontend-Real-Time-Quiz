@@ -52,7 +52,7 @@ const LoginPage = () => {
         <NavbarContent>
           <NavbarMenuToggle
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            className="sm:hidden text-white"
+            className="text-white sm:hidden"
           />
           <NavbarBrand>
             <p className="font-bold text-white">QuizMinds</p>
@@ -91,7 +91,7 @@ const LoginPage = () => {
       </Navbar>
       <div className="flex gap-6">
         <div>
-          <div className="hidden sm:flex h-screen flex-col justify-between border-e bg-white">
+          <div className="flex-col justify-between hidden h-screen bg-white sm:flex border-e">
             <div className="px-4 py-6">
               <span className="grid h-10 w-32 place-content-center rounded-lg  text-xs text-gray-600">
                 
@@ -101,7 +101,7 @@ const LoginPage = () => {
                 <li>
                   <a
                     href=""
-                    className="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
+                    className="block px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg"
                   >
                     General
                   </a>
@@ -109,13 +109,13 @@ const LoginPage = () => {
 
                 <li>
                   <details className="group [&_summary::-webkit-details-marker]:hidden">
-                    <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                    <summary className="flex items-center justify-between px-4 py-2 text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 hover:text-gray-700">
                       <span className="text-sm font-medium"> Teams </span>
 
-                      <span className="shrink-0 transition duration-300 group-open:-rotate-180">
+                      <span className="transition duration-300 shrink-0 group-open:-rotate-180">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
+                          className="w-5 h-5"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -128,11 +128,11 @@ const LoginPage = () => {
                       </span>
                     </summary>
 
-                    <ul className="mt-2 space-y-1 px-4">
+                    <ul className="px-4 mt-2 space-y-1">
                       <li>
                         <a
                           href=""
-                          className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                          className="block px-4 py-2 text-sm font-medium text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700"
                         >
                           Old users
                         </a>
@@ -141,7 +141,7 @@ const LoginPage = () => {
                       <li>
                         <a
                           href=""
-                          className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                          className="block px-4 py-2 text-sm font-medium text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700"
                         >
                           Rooms
                         </a>
@@ -153,7 +153,7 @@ const LoginPage = () => {
                 <li>
                   <a
                     href=""
-                    className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                    className="block px-4 py-2 text-sm font-medium text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700"
                   >
                     Quizzes
                   </a>
@@ -162,7 +162,7 @@ const LoginPage = () => {
                 <li>
                   <a
                     href=""
-                    className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                    className="block px-4 py-2 text-sm font-medium text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700"
                   >
                     Scores
                   </a>
@@ -170,13 +170,13 @@ const LoginPage = () => {
 
                 <li>
                   <details className="group [&_summary::-webkit-details-marker]:hidden">
-                    <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                    <summary className="flex items-center justify-between px-4 py-2 text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 hover:text-gray-700">
                       <span className="text-sm font-medium"> Account </span>
 
-                      <span className="shrink-0 transition duration-300 group-open:-rotate-180">
+                      <span className="transition duration-300 shrink-0 group-open:-rotate-180">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
+                          className="w-5 h-5"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -189,11 +189,11 @@ const LoginPage = () => {
                       </span>
                     </summary>
 
-                    <ul className="mt-2 space-y-1 px-4">
+                    <ul className="px-4 mt-2 space-y-1">
                       <li>
                         <a
                           href=""
-                          className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                          className="block px-4 py-2 text-sm font-medium text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700"
                         >
                           Profile
                         </a>
@@ -218,7 +218,7 @@ const LoginPage = () => {
             <div className="sticky inset-x-0 bottom-0 border-t border-gray-100">
               <a
                 href="#"
-                className="flex items-center gap-2 bg-white p-4 hover:bg-gray-50"
+                className="flex items-center gap-2 p-4 bg-white hover:bg-gray-50"
               >
                 <Avatar name={userData.name}/>
 
@@ -235,7 +235,7 @@ const LoginPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex gap-2 lg:mx-72 xl:mx-2/3 md:mx-36 flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center gap-2 lg:mx-72 xl:mx-2/3 md:mx-36">
           <p>No quizzes yet! Create yours right now!</p>
           <Button as={Link} color="primary" to="/creator">
             Create quiz
