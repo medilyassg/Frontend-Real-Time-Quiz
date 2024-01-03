@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
+  Image,
+  Card,
+  CardFooter,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -14,14 +17,14 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userData,setUserData]=useState({})
-  const [isLogin,setIsLogin]=useState(null)
-  const navigate=useNavigate()
+  const [userData, setUserData] = useState({});
+  const [quizData, setQuizData] = useState({});
+  const navigate = useNavigate();
   const menuItems = [
     { label: "Profile", link: "/profile" },
     { label: "Dashboard", link: "/dashboard" },
     { label: "Scores", link: "#" },
-    { label: "Quizzes", link: "/quizzes" },
+    { label: "New quiz", link: "/creator" },
     { label: "Rooms", link: "#" },
     { label: "Old users", link: "#" },
     { label: "Log Out", link: "/logout" },
@@ -32,23 +35,41 @@ const LoginPage = () => {
   }, []);
 
   async function getUser() {
-    await api.get("/api/v1/user").then((response)=>{
-        setUserData(()=>response.data.data)
-        setIsLogin(true)
-    }).catch((error)=>{
-      if (error.response.status === 401) {
-        setIsLogin(false)
+    try {
+      const response = await api.get("/api/v1/user");
+      setUserData(response.data.data);
 
+      if (response.data.data) {
+        const id = response.data.data.id;
+        const quizzesResponse = await api.get(`/api/v1/quizzes/${id}`);
+        setQuizData(quizzesResponse.data);
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+      }
     }
-    })
   }
-  if(!isLogin){
-    navigate("/login",{ replace: true })
-    return;
-  }
+  const handleLogout = async () => {
+    try {
+      const csrf = await api.get("/sanctum/csrf-cookie");
+      const response = await api.post("/api/v1/auth/logout");
+
+      if (response.status === 200) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log("");
+    }
+  };
   return (
     <div>
-      <Navbar onMenuOpenChange={setIsMenuOpen} className="lg:fixed md:fixed xl:fixed 2xl:fixed bg-[#111233]">
+      <Navbar
+        onMenuOpenChange={setIsMenuOpen}
+        className="lg:fixed md:fixed xl:fixed 2xl:fixed bg-[#111233]"
+      >
         <NavbarContent>
           <NavbarMenuToggle
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -59,9 +80,9 @@ const LoginPage = () => {
           </NavbarBrand>
         </NavbarContent>
         <NavbarContent justify="end">
-        <NavbarItem>
-            <Button as={Link} color="primary" to="/creator" variant="ghost">
-              Create quiz
+          <NavbarItem>
+            <Button onClick={handleLogout} color="primary" variant="ghost">
+              Logout
             </Button>
           </NavbarItem>
           <NavbarItem>
@@ -93,9 +114,7 @@ const LoginPage = () => {
         <div>
           <div className="flex-col justify-between hidden h-screen bg-white sm:flex border-e">
             <div className="px-4 py-6">
-              <span className="grid h-10 w-32 place-content-center rounded-lg  text-xs text-gray-600">
-                
-              </span>
+              <span className="grid h-10 w-32 place-content-center rounded-lg  text-xs text-gray-600"></span>
 
               <ul className="mt-6 space-y-1">
                 <li>
@@ -152,10 +171,10 @@ const LoginPage = () => {
 
                 <li>
                   <a
-                    href=""
+                    href="/creator"
                     className="block px-4 py-2 text-sm font-medium text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700"
                   >
-                    Quizzes
+                    New quiz
                   </a>
                 </li>
 
@@ -220,7 +239,7 @@ const LoginPage = () => {
                 href="#"
                 className="flex items-center gap-2 p-4 bg-white hover:bg-gray-50"
               >
-                <Avatar name={userData.name}/>
+                <Avatar name={userData.name} />
 
                 <div>
                   <p className="text-xs">
@@ -235,11 +254,50 @@ const LoginPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center gap-2 lg:mx-72 xl:mx-2/3 md:mx-36">
-          <p>No quizzes yet! Create yours right now!</p>
-          <Button as={Link} color="primary" to="/creator">
-            Create quiz
-          </Button>
+        <div className="flex gap-3 m-auto justify-center items-center flex-wrap">
+          {quizData.length > 0 ? (
+            quizData.map((quiz, index) => (
+              <Card
+                key={index}
+                isFooterBlurred
+                radius="lg"
+                className="border-none"
+              >
+                <Image
+                  alt="quiz"
+                  className="object-cover"
+                  height={200}
+                  src="https://s1.qwant.com/thumbr/474x511/1/f/cd923303f864cc55ae4f8dc31a0abedfc3e89adc447d71296aeaae2b4d7845/th.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%3Fid%3DOIP.B5fKN_0J_wr4haO-4UdFegHaH_%26pid%3DApi&q=0&b=1&p=0&a=0"
+                  width={200}
+                />
+                <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+                  <div className="flex flex-col gap-2">
+                    <p className="text-sm text-white/80">{quiz.title}</p>
+                    <p className="text-tiny text-white/80">
+                      created:
+                      {new Date(quiz.created_at).toLocaleDateString()}
+                    </p>
+                  </div>{" "}
+                  <Button
+                    className="text-tiny text-white bg-black/20"
+                    variant="flat"
+                    color="default"
+                    radius="lg"
+                    size="sm"
+                  >
+                    See more
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))
+          ) : (
+            <div className="flex flex-col gap-2 m-auto justify-center items-center h-screen">
+              <p>No quizzes yet! Create yours right now!</p>
+              <Button as={Link} color="primary" to="/creator" className="w-1/2">
+                Create quiz
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -134,21 +134,21 @@ const NavBarComponent=()=>{
                     </div>
                     <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
                         <div className="flex items-center flex-shrink-0">
-                        <p className="text-2xl font-bold text-blue-700">QuizMinds</p>
+                        <p className="text-2xl font-bold text-blue-900">QuizMinds</p>
                         </div>
                         <div className="hidden sm:ml-6 sm:block">
                         <div className="flex space-x-4 w-96">
-                        <input value={nomQuiz} onChange={(e)=>{setNomQuiz(e.target.value);dispatch(update_nom_quiz(e.target.value))}} className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline w-52" id="username" type="text" placeholder="Nom du Quiz" />
+                        <input value={nomQuiz} onChange={(e)=>{setNomQuiz(e.target.value);dispatch(update_nom_quiz(e.target.value))}} className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline w-52" id="username" type="text" placeholder="Quiz name" />
                         </div>
                         </div>
                     </div>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div className="inline-flex btnNavBar">
-                <button onClick={()=>navigate("/home")} className="px-4 py-2 font-semibold text-gray-800 bg-white border border-gray-400 rounded-l shadow hover:bg-gray-100">
-                    Quitter
+                <button onClick={()=>navigate("/dashboard")} className="px-4 py-2 font-semibold text-gray-800 bg-white border border-gray-400 rounded-l shadow hover:bg-gray-100">
+                    Leave
                 </button>
                 <button onClick={()=>enregister()} className="px-4 py-2 font-bold text-white bg-blue-500 rounded-r hover:bg-blue-700">
-                    Enregistrer
+                    Save
                 </button>
                 </div>
                     </div>
@@ -157,7 +157,7 @@ const NavBarComponent=()=>{
 
                 <div className="sm:hidden" id="mobile-menu">
                     <div className="px-2 pt-2 pb-3 space-y-1">
-                    <input value={nomQuiz} onChange={(e)=>{setNomQuiz(e.target.value);dispatch(update_nom_quiz(e.target.value))}} className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Nom du Quiz" />
+                    <input value={nomQuiz} onChange={(e)=>{setNomQuiz(e.target.value);dispatch(update_nom_quiz(e.target.value))}} className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Quiz name" />
                     </div>
         </div>
     </>

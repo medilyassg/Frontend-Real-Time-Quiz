@@ -35,7 +35,7 @@ const FormQuestionComponent=(props)=>{
         return<>
             <div className="option-item" style={{ "backgroundColor":responseOne==""?"white":"#DA1A3A" }}>
                 <div className="list-question" style={{ "backgroundColor":"#DA1A3A" }}></div>
-                <input type="text" value={responseOne}  style={{ "backgroundColor":responseOne==""?"white":"#DA1A3A","color":responseOne==""?"black":"white" }} onChange={(e)=>{setResponseOne(e.target.value);dispatch(update_responseOne(e.target.value))}} className="block h-full border-gray-300 border-none shadow-sm resize-none w-72 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 focus:outline-none" maxLength={31} placeholder="Ajoute une réponse 1" />
+                <input type="text" value={responseOne}  style={{ "backgroundColor":responseOne==""?"white":"#DA1A3A","color":responseOne==""?"black":"white" }} onChange={(e)=>{setResponseOne(e.target.value);dispatch(update_responseOne(e.target.value))}} className="block h-full border-gray-300 border-none shadow-sm resize-none w-72 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 focus:outline-none" maxLength={31} placeholder="add response 1" />
                 <div className="checkbox-wrapper-31">
                 <input type="checkbox" name="reponse1"  checked={selectedCheckbox === 'reponse1'} onChange={() =>{dispatch(change_value_checkbox('reponse1'))}}/>
                 <svg viewBox="0 0 35.6 35.6" style={{ "display":responseOne==""?"none":"block" }}>
@@ -48,7 +48,7 @@ const FormQuestionComponent=(props)=>{
 
             <div className="option-item" style={{ "backgroundColor":responseTwo==""?"white":"#1368CE" }}>
                 <div className="list-question" style={{ "backgroundColor":"#1368CE" }}></div>
-                <input type="text" value={responseTwo} style={{ "backgroundColor":responseTwo==""?"white":"#1368CE","color":responseTwo==""?"black":"white" }} onChange={(e)=>{setResponseTwo(e.target.value);dispatch(update_responseTwo(e.target.value))}}  className="block h-full border-gray-300 border-none shadow-sm resize-none w-72 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 focus:outline-none" maxLength={31} placeholder="Ajoute une réponse 2" />
+                <input type="text" value={responseTwo} style={{ "backgroundColor":responseTwo==""?"white":"#1368CE","color":responseTwo==""?"black":"white" }} onChange={(e)=>{setResponseTwo(e.target.value);dispatch(update_responseTwo(e.target.value))}}  className="block h-full border-gray-300 border-none shadow-sm resize-none w-72 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 focus:outline-none" maxLength={31} placeholder="add response 2" />
                 <div className="checkbox-wrapper-31">
                 <input type="checkbox" name="reponse2" checked={selectedCheckbox === 'reponse2'} onChange={() =>{dispatch(change_value_checkbox('reponse2'))}} />
                 <svg viewBox="0 0 35.6 35.6" style={{ "display":responseTwo==""?"none":"block" }}>
@@ -61,7 +61,7 @@ const FormQuestionComponent=(props)=>{
 
             <div className="option-item" style={{ "backgroundColor":responseThree==""?"white":"#D89E00" }}>
                 <div className="list-question" style={{ "backgroundColor":"#D89E00" }}></div>
-                <input type="text" value={responseThree} style={{ "backgroundColor":responseThree==""?"white":"#D89E00","color":responseThree==""?"black":"white" }} onChange={(e)=>{setResponseThree(e.target.value);dispatch(update_responseThree(e.target.value))}} className="block h-full border-gray-300 border-none shadow-sm resize-none w-72 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 focus:outline-none" maxLength={31} placeholder="Ajoute une réponse 3" />
+                <input type="text" value={responseThree} style={{ "backgroundColor":responseThree==""?"white":"#D89E00","color":responseThree==""?"black":"white" }} onChange={(e)=>{setResponseThree(e.target.value);dispatch(update_responseThree(e.target.value))}} className="block h-full border-gray-300 border-none shadow-sm resize-none w-72 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 focus:outline-none" maxLength={31} placeholder="add response 3" />
                 <div className="checkbox-wrapper-31">
                 <input type="checkbox" name="reponse3" checked={selectedCheckbox === 'reponse3'} onChange={() =>{dispatch(change_value_checkbox('reponse3'))}} />
                 <svg viewBox="0 0 35.6 35.6" style={{ "display":responseThree==""?"none":"block" }}>
@@ -74,7 +74,7 @@ const FormQuestionComponent=(props)=>{
 
             <div className="option-item" style={{ "backgroundColor":responseFour==""?"white":"#26890C" }}>
                 <div className="list-question" style={{ "backgroundColor":"#26890C" }}></div>
-                <input type="text" value={responseFour} style={{ "backgroundColor":responseFour==""?"white":"#26890C","color":responseFour==""?"black":"white" }} onChange={(e)=>{setResponseFour(e.target.value);dispatch(update_responseFour(e.target.value))}} className="block h-full border-gray-300 border-none shadow-sm resize-none w-72 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 focus:outline-none" maxLength={31} placeholder="Ajoute une réponse 4" />
+                <input type="text" value={responseFour} style={{ "backgroundColor":responseFour==""?"white":"#26890C","color":responseFour==""?"black":"white" }} onChange={(e)=>{setResponseFour(e.target.value);dispatch(update_responseFour(e.target.value))}} className="block h-full border-gray-300 border-none shadow-sm resize-none w-72 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 focus:outline-none" maxLength={31} placeholder="add response 4" />
                 <div className="checkbox-wrapper-31">
                 <input type="checkbox" name="reponse4" checked={selectedCheckbox === 'reponse4'} onChange={() =>{dispatch(change_value_checkbox('reponse4'))}} />
                 <svg viewBox="0 0 35.6 35.6" style={{ "display":responseFour==""?"none":"block" }}>

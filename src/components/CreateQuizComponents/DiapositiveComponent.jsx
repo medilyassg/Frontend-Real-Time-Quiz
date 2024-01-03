@@ -43,7 +43,7 @@ const DiapositiveComponent=()=>{
                 return<>
                 <div key={index} className="diapositive-item" onClick={()=>handleElementClickCurrentIndex(index)} style={{ "backgroundColor":createQuizData.currentIndex==index?"#EAF4FC":"" }}>
                     <div className="btn-diapositive">
-                        <div className="warning" style={{ "display":verificationField(index)?"none":"block","color":createQuizData.currentIndex==index?"blue":"#FCC822" }}><RiErrorWarningFill /></div>
+                        <div className="warning" style={{ "display":verificationField(index)?"none":"block","color":createQuizData.currentIndex==index?"#08112B":"red" }}><RiErrorWarningFill /></div>
                         <div className="duplicate" onClick={()=>dispatch(add_ansewr({question:"",type:"",temp:"",point:"",limitdereponse:"",response:[
                         {reponseOne:"",correct:false},{reponseTwo:"",correct:false},{reponseThree:"",correct:false},{reponseFour:"",correct:false}
                         ]}))}><HiDuplicate /></div>
@@ -51,7 +51,7 @@ const DiapositiveComponent=()=>{
                     </div>
 
                     <div className="screen-diapositive">
-                        <div>Quiz {index+1}</div>
+                        <div>Question {index+1}</div>
                     </div>
                 </div>
                 </>
@@ -61,7 +61,7 @@ const DiapositiveComponent=()=>{
         <div className="btn-ajouter-question">
             <div onClick={()=>dispatch(add_ansewr({question:"",type:"",temp:"",point:"",limitdereponse:"",response:[
                         {reponseOne:"",correct:false},{reponseTwo:"",correct:false},{reponseThree:"",correct:false},{reponseFour:"",correct:false}
-                        ]}))} className="px-2 py-2 font-bold text-white bg-blue-500 rounded-md rounded-r hover:bg-blue-700 btn-responcive1">Ajouter question</div>
+                        ]}))} className="px-2 py-2 font-bold text-white bg-blue-500 rounded-md rounded-r hover:bg-blue-700 btn-responcive1">Add question</div>
             <div onClick={()=>dispatch(add_ansewr({question:"",type:"",temp:"",point:"",limitdereponse:"",response:[
                         {reponseOne:"",correct:false},{reponseTwo:"",correct:false},{reponseThree:"",correct:false},{reponseFour:"",correct:false}
                         ]}))} className="px-4 py-4 font-bold text-white bg-blue-500 rounded-md rounded-r hover:bg-blue-700 btn-responcive2"><FaPlus /></div>

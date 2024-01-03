@@ -58,7 +58,7 @@ const CreateQuizPage=()=>{
 
                 <section className='generatequiz'>
                     <div className='Question'>
-                        <input value={answerValue} onChange={(e)=>{setAnswerValue(e.target.value);dispatch(update_answer(e.target.value))}} className="shadow appearance-none border rounded w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center mt-20 py-5 text-xl" maxLength={120} id="username" type="text" placeholder="Écris ta question"/>
+                        <input value={answerValue} onChange={(e)=>{setAnswerValue(e.target.value);dispatch(update_answer(e.target.value))}} className="shadow appearance-none border rounded w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center mt-20 py-5 text-xl" maxLength={120} id="username" type="text" placeholder="add a question"/>
                         <div className='affiche-menu' onClick={()=>{dispatch(showing(true))}}><CiMenuKebab/></div>
                     </div>
                     <div className='option-question'>
