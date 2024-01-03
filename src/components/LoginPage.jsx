@@ -16,6 +16,9 @@ import {
 } from "@nextui-org/react";
 import { Link, useNavigate } from "react-router-dom";
 const LoginPage = () => {
+  function deleteCookie(cookieName) {
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userData, setUserData] = useState({});
   const [quizData, setQuizData] = useState({});
@@ -27,7 +30,7 @@ const LoginPage = () => {
     { label: "New quiz", link: "/creator" },
     { label: "Rooms", link: "#" },
     { label: "Old users", link: "#" },
-    { label: "Log Out", link: "/logout" },
+    { label: "Log Out", link: "" },
   ];
 
   useEffect(() => {
@@ -52,18 +55,31 @@ const LoginPage = () => {
       }
     }
   }
-  const handleLogout = async () => {
-    try {
-      const csrf = await api.get("/sanctum/csrf-cookie");
-      const response = await api.post("/api/v1/auth/logout");
+  const handleLogout = () => {
+    const logOut = async () => {
+        try {
+            const csrf = await api.get("/sanctum/csrf-cookie");
+            const response = await api.post("/api/v1/auth/logout");
+            return response.data;
+        } catch (error) {
+            console.error(error.response.data.message);
+            throw error;
+        }
+    };
 
-      if (response.status === 200) {
-        navigate("/login");
-      }
-    } catch (error) {
-      console.log("");
-    }
-  };
+    logOut()
+        .then(response => {
+            deleteCookie("XSRF-TOKEN");
+            deleteCookie("laravel_session");
+            localStorage.clear();
+            sessionStorage.clear();
+            navigate("/login");
+        })
+        .catch(error => {
+            console.log(error.response.data.message)
+        });
+};
+  
   return (
     <div>
       <Navbar
@@ -219,14 +235,11 @@ const LoginPage = () => {
                       </li>
 
                       <li>
-                        <form action="/">
-                          <button
-                            type="submit"
+                          <button onClick={handleLogout}
                             className="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
                           >
                             Logout
                           </button>
-                        </form>
                       </li>
                     </ul>
                   </details>

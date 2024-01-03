@@ -15,6 +15,9 @@ import { useState, useMemo } from "react";
 import { api } from "../../config/axios";
 import { NavLink, useNavigate } from "react-router-dom";
 export default function LoginFormPage() {
+  function deleteCookie(cookieName) {
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
